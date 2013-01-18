@@ -219,7 +219,7 @@ OMAttribute * OMElement::getAttribute(std::string name, OMNamespace * ns)
         i < _added_attributes.end(); i++)
     {
         /* Compare ns first as it is smaller in size */
-        if (((*i)->getNamespace()->getURI() == ns->getURI())
+        if ((!ns || (*i)->getNamespace()->getURI() == ns->getURI())
             && ((*i)->getName() == name))
         {
             return *i;
