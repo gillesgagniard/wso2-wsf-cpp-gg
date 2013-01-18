@@ -1635,7 +1635,7 @@ all: build
 
 install: all copy_extra copy_wsdl2c
 
-dist: install  axis2_apache_module axis2_IIS_module axis2_cgi tcpmon copy_samples copy_vc_projects clean_manifest mv_dist
+dist: install  axis2_cgi tcpmon copy_samples copy_vc_projects clean_manifest mv_dist
 
 dist_with_ntlm: install axis2_clients_with_ntlm  axis2_apache_module axis2_IIS_module axis2_cgi tcpmon copy_samples copy_vc_projects clean_manifest mv_dist
 
