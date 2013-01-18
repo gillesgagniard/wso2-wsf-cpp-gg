@@ -126,12 +126,12 @@ axutil_log_create(
     else
         AXIS2_SNPRINTF(tmp_filename, AXUTIL_LOG_FILE_NAME_SIZE, "%s", "axis2.log");
 
-    /* we write all logs to AXIS2C_HOME/logs if it is set otherwise
+    /* we write all logs to WSFCPP_HOME/logs if it is set otherwise
      * to the working dir
      */
     if(stream_name && !(axutil_rindex(stream_name, AXIS2_PATH_SEP_CHAR)))
     {
-        path_home = AXIS2_GETENV("AXIS2C_HOME");
+        path_home = AXIS2_GETENV("WSFCPP_HOME");
         if(path_home)
         {
             AXIS2_SNPRINTF(log_dir, AXUTIL_LOG_FILE_NAME_SIZE, "%s%c%s", path_home,
@@ -150,7 +150,7 @@ axutil_log_create(
         }
         else
         {
-            fprintf(stderr, "AXIS2C_HOME is not set - log is written to . dir\n");
+            fprintf(stderr, "WSFCPP_HOME is not set - log is written to . dir\n");
             AXIS2_SNPRINTF(log_file_name, AXUTIL_LOG_FILE_NAME_SIZE, "%s", tmp_filename);
         }
     }

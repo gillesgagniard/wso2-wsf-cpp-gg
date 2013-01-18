@@ -337,9 +337,11 @@ bool Options::setAction(std::string action)
 	if(_wsf_options)
 	{
 		status = axis2_options_set_action(_wsf_options, Environment::getEnv(), action.c_str());
+		axutil_string_t* action_name = axutil_string_create(Environment::getEnv(),action.c_str());
 		status =axis2_options_set_soap_action(_wsf_options, 
 			Environment::getEnv(),
-			axutil_string_create(Environment::getEnv(),action.c_str()));
+			action_name);
+		axutil_string_free(action_name, Environment::getEnv());
 		return status  ? true :false;
 	}
 	return false;

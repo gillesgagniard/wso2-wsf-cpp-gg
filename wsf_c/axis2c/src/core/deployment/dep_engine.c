@@ -574,6 +574,11 @@ axis2_dep_engine_free(
 	AXIS2_FREE(env->allocator, dep_engine->svc_dir);
     }
 
+    if (dep_engine->module_dir)
+    {
+	    AXIS2_FREE(env->allocator, dep_engine->module_dir);
+    }
+
     if(dep_engine)
     {
         AXIS2_FREE(env->allocator, dep_engine);

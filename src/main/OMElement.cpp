@@ -361,6 +361,12 @@ OMNamespace * OMElement::getNamespace()
     {
         return NULL;
     }
+    if (_namespace)
+    {
+	    _namespace->setAxiomNamespace(NULL);
+	    delete _namespace;
+	    _namespace = NULL;
+    }
     _namespace = new OMNamespace(ns);
     return _namespace;
 }

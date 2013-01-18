@@ -475,6 +475,7 @@ axiom_element_declare_namespace(
         }
         key[0] = '\0';
         axutil_hash_set(om_element->namespaces, key, AXIS2_HASH_KEY_STRING, ns);
+	AXIS2_FREE(env->allocator, key);
     }
     axiom_namespace_increment_ref(ns, env);
     return AXIS2_SUCCESS;
