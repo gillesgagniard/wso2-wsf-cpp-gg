@@ -1,0 +1,40 @@
+<service name="RM10SampleService">
+    <module ref="sandesha2"/>
+    <module ref="addressing"/>
+    <parameter name="ServiceClass" locked="xsd:false">RM10SampleService</parameter>
+
+   <description>
+        This is a Relaible Messaging test service to be used in interop testing with java
+   </description>
+
+    <operation name="echoString">
+            <parameter name="wsamapping" >http://tempuri.org/echoString</parameter>
+    </operation>
+    <operation name="ping" mep="http://www.w3.org/2004/08/wsdl/in-only">
+            <parameter name="wsamapping" >http://tempuri.org/ping</parameter>
+    </operation>
+    <operation name="mtomSample">
+            <parameter name="wsamapping" >http://ws.apache.org/axis2/c/samples/mtom</parameter>
+    </operation>
+
+    <wsp:Policy wsu:Id="RmPolicy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsrm="http://schemas.xmlsoap.org/ws/2005/02/rm/policy" xmlns:sanc="http://ws.apache.org/sandesha2/c/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+        <wsp:ExactlyOne>
+            <wsp:All>
+                <wsrm:RMAssertion>
+                    <wsrm:InactivityTimeout Milliseconds="600000"/>
+                    <wsrm:AcknowledgementInterval Milliseconds="200"/>
+                    <wsrm:BaseRetransmissionInterval Milliseconds="2"/>
+                    <wsrm:ExponentialBackoff/>
+                    <sanc:InactivityTimeout>64</sanc:InactivityTimeout>
+                    <sanc:StorageManager>persistent</sanc:StorageManager>
+                    <sanc:MessageTypesToDrop>none</sanc:MessageTypesToDrop>
+                    <sanc:MaxRetransCount>4</sanc:MaxRetransCount>
+                    <sanc:SenderSleepTime>1</sanc:SenderSleepTime><!--In seconds-->
+                    <sanc:InvokerSleepTime>1</sanc:InvokerSleepTime>
+                    <sanc:PollingWaitTime>4</sanc:PollingWaitTime>
+                    <sanc:TerminateDelay>4</sanc:TerminateDelay>
+                </wsrm:RMAssertion>
+            </wsp:All>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
+</service>

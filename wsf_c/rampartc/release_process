@@ -1,0 +1,125 @@
+RAMPART/C release process
+==========================
+                            
+1. Get a svn checkout from the trunk.
+
+2. Change the version numbers and update the following files.
+    * ChangeLog
+      NEWS
+      NOTICE (for years)
+      project.properties
+      AUTHORS (if there are new)
+      project.xml
+      configure.ac & Makefile.am (in configure.ac change the VERSION_NO also) 
+      build.sh 
+      build/win32/makefile
+      build/win32/make_bin_dist.bat
+	  xdocs\api\doxygenconf
+      INSTALL file
+	  samples/build.sh
+	  sd.sh
+	  bindist.sh
+
+	Change the release date and update the following files
+	  ChangeLog
+	  xdocs\index.html
+	  xdocs\download.html
+
+3. Update the documents inside xdocs
+    * download.html
+    * index.html
+	* archived_news.html
+
+4. Commit the changes
+
+5. Create a tag for the release
+	* run `svn copy https://svn.apache.org/repos/asf/webservices/rampart/trunk/c https://svn.apache.org/repos/asf/webservices/rampart/tags/c/1_3_0 -m "Tagging 1.3.0 release of RampartC"`
+	* Optionally, you can defer creating tag until all RCs are passing. So, can create the tag just before sending for vote. 
+
+6. Get an svn checkout from the tag. 
+
+7. Run the build.sh
+    make sure for the configure option you have the following.
+    ./configure --prefix=${AXIS2C_HOME} --enable-static=no --with-axis2=${AXIS2C_HOME}/include/axis2-1.6.0
+
+8. Creating the site documents
+    * Should have maven 1.0.2 installed (for "maven site" command)
+	* run "maven site" from rampart root directory
+
+9. Creating the API documents
+	* Go inside "xdocs/api/" directory
+	* run "doxygen doxygenconf"
+
+10. Create the source distribution
+	* You have to have gpg key. Check section 14 to create one.
+    * sh sd.sh
+	* enter your gpg password when asked. 
+
+11. Create the binay distribution
+    * sh bindist.sh
+
+12. Test the source and binary distributions
+
+13. Test the source distribution in Windows and create the Sorce zip
+   and the windows binary
+
+   Building Windows Binary
+   --------------------------
+
+    Edit the build/win32/configure.in as follows
+
+    * CRUNTIME = /MT
+    * EMBED_MANIFEST = 0
+    * DEBUG = 0
+
+    To create the binary distribution
+
+    * nmake dist  
+
+
+14. Sign the packs
+    * use existing key pair if you have
+    * To create a new key pair
+        gpg --gen-key
+        key selection default
+        key size 2048
+        key never expire
+        real name:Your Name
+        comment:
+        generated user id is:
+        "Your Name<email@your.domain>"
+        passphrase temp_12_word
+
+        keys will be created in ~/.gnupg directory.
+
+    * cd to the directory which contains the pack and export keys
+        gpg --armor --export email@your.domain > KEYS
+
+        generated message is:
+        You need a Passphrase to protect your secret key.
+        by default key is created in ~/.gnupg
+
+15. Copy the source, binary packs to your directory in people.apache.org
+
+        scp rampartc.1.3.0.* username@people.apache.org:~/public_html/releases/rampartc/1.3.0
+
+16. Put RCs till all the packs are throughly tested and there are no more 
+    known issues.
+17. Then upload the release packs to your directory at apache
+18. Call for vote (in rampart-c-dev list and optionally copy to axis-c-dev)
+19. When the required number of votes is received, upload the release.
+        Copy the release from your home to /www/www.apache.org/dist/ws/rampart/c/1_3_0
+        update the keys (cat KEYS >> /www/www.apache.org/dist/ws/rampart/c/KEYS)
+        Move earlier releases to archive.apache.org (/www/archive.apache.org/dist/ws/rampart/c/)
+        Update the site at [WWW] https://svn.apache.org/repos/asf/webservices/rampart/site/c/ with generated site documents (in step 8)
+        svn update the site at /www/ws.apache.org/rampart/c
+        Test Main Site Downloads (wait until mirros pickup the distributables, before sending the release note.)
+
+20. When the site is updated announce the release.
+	Send the announce mail to 
+		axis-c-dev@ws.apache.org
+		axis-c-user@ws.apache.org
+		rampart-c-dev@ws.apache.org
+		announce@apache.org
+		
+

@@ -1,0 +1,11 @@
+Getting Sandesha2/C Samples Source Working on Linux
+=============================================
+Build the source
+This can be done using the following command sequence:
+        ./configure
+        make
+        make install
+        use './configure --help' for options
+
+NOTE: If you don't provide a --prefix configure option, it will by default
+install into /usr/local/sandesha2c/samples directory.

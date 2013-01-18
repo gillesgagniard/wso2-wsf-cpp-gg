@@ -1,0 +1,15 @@
+2009-03-11 05:25:59,549 [127.0.1.1-damitha-laptop] [HttpCoreNIOListener]  WARN HttpCoreNIOListener System may be unstable: IOReactor encountered a checked exception : Too many open files
+java.io.IOException: Too many open files
+    at sun.nio.ch.ServerSocketChannelImpl.accept0(Native Method)
+    at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:145)
+    at org.apache.http.impl.nio.reactor.DefaultListeningIOReactor.processEvent(DefaultListeningIOReactor.java:115)
+    at org.apache.http.impl.nio.reactor.DefaultListeningIOReactor.processEvents(DefaultListeningIOReactor.java:99)
+    at org.apache.http.impl.nio.reactor.AbstractMultiworkerIOReactor.execute(AbstractMultiworkerIOReactor.java:160)
+    at org.apache.synapse.transport.nhttp.HttpCoreNIOListener.startServerEngine(HttpCoreNIOListener.java:129)
+    at org.apache.synapse.transport.nhttp.HttpCoreNIOListener.access$200(HttpCoreNIOListener.java:61)
+    at org.apache.synapse.transport.nhttp.HttpCoreNIOListener$2.run(HttpCoreNIOListener.java:277)
+    at java.lang.Thread.run(Thread.java:619)
+
+And also following warning
+
+2009-03-11 05:31:37,261 [127.0.1.1-damitha-laptop] [HttpServerWorker-18]  WARN HttpCoreNIOSender Connection closed by client : 127.0.0.1

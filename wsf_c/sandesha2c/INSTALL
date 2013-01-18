@@ -1,0 +1,81 @@
+SANDESHA2 INSTALL
+=================
+1. Installing Sandesha2/C source release on Linux
+
+    - This version of Sandesha2/C depends on Axis2/C 1.6.0
+        - Download Axis2/C from http://ws.apache.org/axis2/c/download.cgi and
+          install.
+    - Go to Sandesha2/C source directory
+    - Run configure with AXIS2 include path.
+        ./configure --prefix=<axis2c_deploy_path> --enable-static=no --with-axis2=<axis2c_include_path>
+    - Run make and make install
+
+    This install the Sandesha2/C as a module in Axis2/C in <axis2c_deploy_path>/modules folder. The module
+    folder contains the Sandesha2/C libraries and the module.xml file. At the same time this copy the
+    Sandesha2/C include files into <axis2c_deploy_path>/include folder. Also the Sandesha2/C client library
+    which will be needed to be linked with some client applications using Sandesha2/C client, is
+    installed into <axis2c_deploy_path>/lib folder(Use of Sandesha2/C client library is strictly
+    discouraged as this is not supported any longer)
+
+    -To Install samples
+        - Go samples directory
+        - Run configure with AXIS2 include path.
+            ./configure --prefix=<axis2c_deploy_path> --with-axis2=<axis2c_include_path>
+        -make
+        -make install
+
+
+   Sandesha2/C installation for Linux has the following folder structure. 
+   
+    Sandesha2
+        |
+        + - modules/sandesha2 (sandesha2 module library and module.xml file)
+        + - docs
+        + - config (Contain sample module.xml and axis2.xml files)
+        |
+        + - services (Contain sample service)
+        |
+        + - include ( header files)
+        + - samples/bin/sandesha2 ( sample executables)
+        + - lib (some libs to run Sandesha2/C clients)
+
+3 Installing Sandesha2/C on WIN32
+
+    1. Building from source distribution
+
+    i. You need to have unzipped Axis2/C 1.6 release binary to some folder.
+    ii. On your cmd.exe cd to <sandesha2 src>\build\win32
+      Edit configure.in file with your binary locations.
+    iii. To set necessary environment variables on command line run vcvars32.bat file.
+    iv. Run nmake dist command on command line. This will build the sandesha2 binary and samples
+       to a directory sandesha2 in <sandesha2 src>\build\sandesha2.
+
+
+    2. Configuring sandesha2 module
+
+    Sandesha2/C binary distribution will have following directory structure.
+
+    Sandesha2
+        |
+        + - Sandesha2 (sandesha2 module dll and module.xml file)
+        |
+        + - samples\bin\sandesha2
+        |
+        + - include ( header files)
+        + - lib (some dll's to run Sandesha2/C clients)
+
+        
+ Note: 1.
+        Sandesha2 internally uses an Sqlite3 embedded database. The database file is created in Axis2/C repository directory.
+        You need to set the AXIS2C_HOME environment variable to point to that directory before running server or clients.
+        If you use Axis2/C Apache2 module instead of simple_axis2_server make 
+        sure that Apache2 user can access the above database file.
+
+        If you do not set the environment variable, be aware that Sandesha2/C will create the database file
+        named sandesha2_db in the current folder.
+
+      2.
+       Sandesha2/C module is installed into <axis2c_deploy_path>/modules/sandesha2c directory. The installed module contain
+       libsandesha2.so, module.xml. The sample clients are installed into <axis2c_deploy_path>/samples/bin/sandesha2
+       directory. Sample services are installed into <axis2c_deploy_path>/services directory.
+

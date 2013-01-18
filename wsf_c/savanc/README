@@ -1,0 +1,130 @@
+                        Apache Savan/C
+
+  What is it?
+  -----------
+Savan/C is a C implementation of WS-Eventing specification. Savan/C is built on top of Axis2/C. Therefore by using Savan/C 
+you can add WS-Eventing capability to Web services hosted using Axis2/C. Savan/C was designed as a general 
+publisher/subscriber tool. The architecture was designed to abstract the general publisher/subscriber features so that 
+people could support more than one publisher/subscriber mechanisms within the same infrastructure. 
+  
+  The Latest Version
+  ------------------
+  0.90.
+
+  Documentation
+  -------------
+  The documentation not available yet.
+
+  Acknowledgments
+  ----------------
+  Apache Savan/C relies heavily on the use of autoconf and libtool to
+  provide a build environment.
+
+  Installation
+  ------------
+  Please see the INSTALL file.
+
+  Licensing
+  ---------
+  Please see the LICENSE file.
+
+  How To Run.
+  ----------
+  Install savan module into <axis2 deploy folder>/modules folder. Add the Savan Phase
+  information into axis2.xml as following. Search for 'SavanPhase' in the
+  following xml block to identify the Savan specific entries.
+
+    <!-- ================================================= -->
+    <!-- Phases  -->
+    <!-- ================================================= -->
+    <phaseOrder type="inflow">
+        <!-- System pre defined phases       -->
+        <phase name="Transport"/>
+        <phase name="PreDispatch"/>
+        <phase name="Dispatch"/>
+        <phase name="PostDispatch"/>
+        <!-- End system pre defined phases       -->
+        <!-- After PostDispatch phase, module or service author can add any phase as required  -->
+        <!-- User defined phases could be added here -->
+        <!--phase name="userphase1"/-->
+        <!--phase name="RMPhase"/-->
+        <phase name="SavanPhase"/>
+    </phaseOrder>
+    <phaseOrder type="outflow">
+        <!-- User defined phases could be added here -->
+        <!--phase name="RMPhase"/-->
+        <phase name="SavanPhase"/>
+        <!--phase name="userphase1"/-->
+        <!--system predefined phase-->
+        <phase name="MessageOut"/>
+        <!--phase name="Security"/-->
+    </phaseOrder>
+    <phaseOrder type="INfaultflow">
+        <!-- User defined phases could be added here -->
+        <!--phase name="userphase1"/-->
+        <!--phase name="RMPhase"/-->
+        <phase name="SavanPhase"/>
+    </phaseOrder>
+    <phaseOrder type="Outfaultflow">
+        <!-- User defined phases could be added here -->
+        <!--phase name="RMPhase"/-->
+        <phase name="SavanPhase"/>
+        <!--phase name="userphase1"/-->
+        <phase name="MessageOut"/>
+    </phaseOrder>
+
+You may find a sample axis2.xml in src/data of the source distribution or in
+samples/server in binary distribution.
+In the services xml file for the service which require Savan enabled
+add the entry
+ <module ref="savan"/>
+If you need all services in the engine Savan enabled add the above entry into
+axis2.xml.
+
+In the module.xml file for the savan module give a valid path for database storage. The database name should be savan_db.
+<parameter name="savan_db" locked="false">/axis2c/deploy/savan_db</parameter>
+
+You can use the sample in the samples folder for testing.
+This sample consists of two services called listener and weather and a subscriber client.
+Install these samples by running the build.sh script in the smaples folder and you will find
+weather and listener services added to the $AXIS2C_HOME/services folder.
+Here is the weather's serivces.xml file
+
+<service name="weather">
+    <parameter name="ServiceClass" locked="xsd:false">weather</parameter>
+   <description>
+       This is a sample eventing data source which loads as the axis2 engine startup and
+       start publishing to its subscribers.
+   </description>
+   <module ref="savan"/>
+   <operation name="start">
+           <parameter name="wsamapping" >http://ws.apache.org/axis2/c/savan/samples/pubilsher/start</parameter>
+   </operation>
+</service>
+
+Now to test the sample edit the client sample in samples/client/subscriber/subscriber.c.
+
+You may need to edit the following line to point to the listener to which the weather publish when subscriber subscribes.
+    axutil_hash_set(savan_options, SAVAN_OP_KEY_NOTIFY_EPR, AXIS2_HASH_KEY_STRING,
+        "http://localhost:9090/axis2/services/listener");
+
+Now compile, install and execute the subscriber sample $AXIS2C_HOME/bin/samples/savan/subscriber.
+This will prompt the user with the following screen
+
+Select the action:
+1 subscribe
+2 renew
+3 get status
+4 unsubscribe
+5 Generate weather event
+6 quit
+
+Choosing option 1 send a subscription request to the weather data source and receive a subscription id if subscription is
+successful. Choosing option 5, the command line program send a weather event to the weather service data source which then emits it to the registered subscriber's data sink(listener service here) provided by subscriber.
+Using option 2 the subscriber request for renew subscription request. Using option 3 the subscriber send a a status request message.
+Finally it unsubscribe indicating that it has no further interest in receiving data source events by using option 4.
+
+Please keep in mind the following when using Savan/C with Axis2/C.
+
+1. If Axis2 C engine is running as an Apache module make sure that Apache execute user has the full access to the
+    database path you included in the module.xml

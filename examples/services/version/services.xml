@@ -1,0 +1,10 @@
+<service name="version">
+    <parameter name="ServiceClass" locked="xsd:false">version</parameter>
+    <description>
+	    <messageReceiver class="wsf_cpp_msg_recv"/>
+        This is a testing service, named 'version' to test multiple operations in the same service
+   </description>
+    <operation name="GetVersion">
+            <messageReceiver class="wsf_cpp_msg_recv" />
+    </operation>
+</service>

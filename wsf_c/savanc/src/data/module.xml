@@ -1,0 +1,39 @@
+<module name="savan" class="mod_savan">
+   <!-- Resource parameters -->
+   <!-- savan_storage could be one of inmemory, sqlite and service-->
+   <!--parameter name="savan_resource" locked="false">/tmp/savan_db</parameter>-->
+   <!--parameter name="savan_resource" locked="false">http://localhost:9763/registry</parameter>
+   <parameter name="username" locked="false">admin</parameter>
+   <parameter name="password" locked="false">admin</parameter-->
+   <parameter name="savan_filter_template_path" locked="false">/axis2c/deploy/modules/savan/template.xsl</parameter>
+    <inflow>
+        <handler name="SavanInHandler" class="mod_savan">
+            <order phase="SavanPhase"/>
+        </handler>
+    </inflow>
+
+    <operation name="Subscribe">
+            <messageReceiver class="savan_msgreceivers" />
+           <parameter name="wsamapping" >http://schemas.xmlsoap.org/ws/2004/08/eventing/Subscribe</parameter>
+    </operation>
+
+    <operation name="Renew">
+            <messageReceiver class="savan_msgreceivers" />
+           <parameter name="wsamapping" >http://schemas.xmlsoap.org/ws/2004/08/eventing/Renew</parameter>
+    </operation>
+
+    <operation name="Unsubscribe">
+            <messageReceiver class="savan_msgreceivers" />
+           <parameter name="wsamapping" >http://schemas.xmlsoap.org/ws/2004/08/eventing/Unsubscribe</parameter>
+    </operation>
+
+    <operation name="GetStatus">
+            <messageReceiver class="savan_msgreceivers" />
+           <parameter name="wsamapping" >http://schemas.xmlsoap.org/ws/2004/08/eventing/GetStatus</parameter>
+    </operation>
+
+    <operation name="publish">
+           <parameter name="wsamapping" ></parameter>
+    </operation>
+
+</module>

@@ -1,0 +1,38 @@
+<service name="sec_echo">
+	<parameter name="ServiceClass" locked="xsd:false">sec_echo</parameter>
+
+	<description>
+		This is a testing service , to test the system is working or not
+	</description>
+	<module ref="rampart" />
+
+	<operation name="echoString">
+		<parameter name="wsamapping">http://example.com/ws/2004/09/policy/Test/EchoRequest</parameter>
+	</operation>
+
+	<wsp:Policy xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+		xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:TransportBinding>
+					<wsp:Policy>
+					</wsp:Policy>
+				</sp:TransportBinding>
+				<sp:SignedSupportingTokens>
+					<wsp:Policy>
+						<sp:UsernameToken
+							sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+							<wsp:Policy>
+								<sp:WssUsernameToken10 />
+							</wsp:Policy>
+						</sp:UsernameToken>
+					</wsp:Policy>
+				</sp:SignedSupportingTokens>
+				<rampc:RampartConfig xmlns:rampc="http://ws.apache.org/rampart/c/policy">
+					<rampc:PasswordType>Digest</rampc:PasswordType>
+					<rampc:PasswordCallbackClass>AXIS2C_HOME/samples/lib/rampartc/libpwcb.so</rampc:PasswordCallbackClass>
+				</rampc:RampartConfig>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+</service>

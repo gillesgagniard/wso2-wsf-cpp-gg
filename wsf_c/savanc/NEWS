@@ -1,0 +1,20 @@
+Apache Savan/C Team is pleased to announce the release of Apache Savan/C version 0.90
+You can download this release from
+http://ws.apache.org/savan/c/download.cgi
+This release is supposed to be used with the Axis2C 1.1.0 distribution which is released recently.
+
+Key Features:
+
+    1 Support for WS-Eventing Specification August 2004.
+    2 Support for Subscribe, Unsubscribe, Renew and GetStatus operations.
+    3 Support for subscription management endpoint which could be the
+        Event Source itself or separate subscription management endpoint.
+    4 Persistent storage for subscribers.
+    5 Support for both SOAP 1.1 and 1.2.
+    6 Samples to test scenarios.
+    7 Documentation
+
+We welcome your early feedback on this implementation.
+Thanks for your interest in Savan/C
+
+-- Apache Savan/C Team --

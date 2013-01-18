@@ -1,0 +1,84 @@
+                        Apache Sandesha2/C
+
+  What is it?
+  -----------
+  Sandesha2/C is a C implementation of WS-ReliableMessaging specification 
+  published by IBM, Microsoft, BEA and TIBCO. Sandesha2/C is built on top 
+  of Axis2/C. Therefore by using Sandesha2/C you can add reliable messaging 
+  capability to the web services hosted using Axis2/C. Sandesha2/C can also 
+  be used with Axis2/C client to interact with already hosted web services 
+  in a reliable manner. Read Sandesha2 Architecture guide to see how 
+  Sandesha2 work internally. 
+  
+  The Latest Version
+  ------------------
+  0.91.
+  1.0 will be released soon.
+  Documentation
+  -------------
+  The documentation not available yet. For the architecture guide please
+  visit Sandesha2 Architecture guide at 
+  http://ws.apache.org/sandesha/sandesha2/architectureGuide.html
+
+  Acknowledgments
+  ----------------
+  Apache Sandesha2/C relies heavily on the use of autoconf and libtool to
+  provide a build environment.
+
+  Installation
+  ------------
+  Please see the INSTALL file.
+
+  Licensing
+  ---------
+  Please see the LICENSE file.
+
+  How To Run.
+  ----------
+  Install sandesha2 module into <axis2 deploy folder>/modules folder. Add the RMPhase
+  information into axis2.xml as following. Search for 'RMPhase' in the
+  following xml block to identify the RM specific entries.
+
+    <!-- ================================================= -->
+    <!-- Phases  -->
+    <!-- ================================================= -->
+    <phaseOrder type="inflow">
+        <!-- System pre defined phases       -->
+        <phase name="Transport"/>
+        <phase name="PreDispatch"/>
+        <phase name="Dispatch"/>
+        <phase name="PostDispatch"/>
+        <!-- End system pre defined phases       -->
+        <!-- After PostDispatch phase, module or service author can add any phase as required  -->
+        <!-- User defined phases could be added here -->
+        <!--phase name="userphase1"/-->
+        <phase name="RMPhase"/>
+    </phaseOrder>
+    <phaseOrder type="outflow">
+        <!-- User defined phases could be added here -->
+        <phase name="RMPhase"/>
+        <!--phase name="RMPhase"/-->
+        <!--phase name="userphase1"/-->
+        <!--system predefined phase-->
+        <phase name="MessageOut"/>
+    </phaseOrder>
+    <phaseOrder type="INfaultflow">
+        <!-- User defined phases could be added here -->
+        <!--phase name="userphase1"/-->
+        <phase name="RMPhase"/>
+    </phaseOrder>
+    <phaseOrder type="Outfaultflow">
+        <!-- User defined phases could be added here -->
+        <phase name="RMPhase"/>
+        <!--phase name="userphase1"/-->
+        <phase name="MessageOut"/>
+    </phaseOrder>
+
+In the services xml file for the service which require RM enabled
+add the entry
+ <module ref="sandesha2"/>
+If you need all services in the engine RM enabled add the above entry into
+axis2.xml.
+
+You can use samples in the samples folder for testing.
+

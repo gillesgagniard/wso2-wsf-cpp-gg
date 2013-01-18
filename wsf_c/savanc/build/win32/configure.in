@@ -1,0 +1,31 @@
+# Axis2c binary directory
+AXIS2_BIN_DIR = E:\axis2c\build\axis2c-bin-1.6.0-win32
+
+# libxslt bin directory
+
+LIBXSLT_BIN_DIR = E:\libxslt-1.1.17.win32
+
+
+# libxml2 bin directory
+
+LIBXML2_BIN_DIR = E:\libxml2-2.6.30.win32
+
+
+#ICONV directory
+
+ICONV_BIN_DIR=E:\iconv-1.9.2.win32
+
+
+# CRUNTIME library ( Use /MD or /MT )
+
+
+CRUNTIME=/MD
+
+# Whether to EMBED MANIFEST 
+
+EMBED_MANIFEST=1
+
+#Debug Symbols
+
+DEBUG =0
+

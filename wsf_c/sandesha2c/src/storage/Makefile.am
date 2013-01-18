@@ -1,0 +1,1 @@
+SUBDIRS = beans sqlite common

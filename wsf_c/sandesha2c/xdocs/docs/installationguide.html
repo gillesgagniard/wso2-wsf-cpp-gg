@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html><head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+  <title>Installation Guide</title></head>
+
+
+<body>
+<h1>Apache Sandesha2/C Installation Guide</h1>
+
+<p>This document guides you on how to install Sandesha2/C with Axis2/C, and
+run the server and client samples on Linux and Microsoft Windows operating
+systems.</p>
+
+<p>This release consists of a source distribution.</p>
+
+<p>Please send your feedback to the developer mailing list: <a href="mailto:axis-c-dev@ws.apache.org">axis-c-dev@ws.apache.org</a>
+(Subscription details are available on the <a href="http://ws.apache.org/sandesha/sandesha2/c">Sandesha2 site</a>.) Please
+remember to prefix the subject with [Axis2].</p>
+
+<h2>Contents</h2>
+<ul>
+  <li><a href="#linux">Installing and Running on Linux</a>
+    <ul>
+      <li><a href="#linux_source">Using the Source Release</a></li>
+      
+    </ul>
+  </li>
+  <li><a href="#win">Installing and Running on Microsoft Windows (win32)</a>
+    <ul>
+      <li><a href="#win_source">Using the Source Release</a></li>
+      
+    </ul>
+  </li>
+</ul>
+<a id="linux"></a>
+
+<h2>1. Installing and Running on Linux</h2>
+
+<p>This can be done using binary or source distributions. (<a href="http://ws.apache.org/sandesha/sandesha2/c/download.cgi">Download</a>
+the two distributions)</p>
+<a id="linux_source"></a>
+
+<h3>1.1. Installing Sandesha2/C Source Release on Linux</h3>
+
+<p>This version of Sandesha2/C depends on Axis2/C 1.6.0 <a href="http://ws.apache.org/axis2/c/download.cgi">Download Axis2/C</a> from
+and install.</p>
+<ol>
+  <li>Download Sandesha2 source distribution</li>
+  <li>Extract the source distribution and go to extracted directory</li>
+  <li>Run configure with AXIS2 include path.
+    <pre>./configure --prefix=&lt;axis2c_deploy_path&gt; --enable-static=no --with-axis2=&lt;axis2c_deploy_path&gt;</pre>
+  </li>
+  <li>Run make and make install</li>
+</ol>
+This will install the Sandesha2/C as a module in Axis2/C in
+&lt;axis2c_deploy_path&gt;/modules folder. The module folder contains the
+Sandesha2/C libraries and the module.xml file. <a id="linux_binary">It will
+also install the libsandesha2_client.so into &lt;axis2c_deploy_path&gt;lib
+folder(Use of Sandesha2/C client library is strictly discouraged as this is 
+not supported any longer). Sandesha2 include files are copied into
+&lt;axis2c_deploy_path&gt;include folder.</a>
+
+<p>To install the samples go into samples folder and do</p>
+
+<p> ./configure --prefix=&lt;axis2c_deploy_path&gt;
+--with-axis2=&lt;axis2c_include_path&gt;</p>
+
+<p>make</p>
+
+<p>make install</p>
+
+
+
+<p>Sandesha2/C deployment structure for Linux has the following folder
+structure.</p>
+<pre>   <br>    Sandesha2<br>        |<br>        + - modules/sandesha2 (sandesha2 module library and module.xml file)<br>        + - docs<br>        + - config (Contain sample module.xml and axis2.xml files)<br>        |<br>        + - samples/bin/sandesha2 ( sample executables<br>        |<br>        + - services (Contain sample service)<br>        |<br>        + - include ( header files)<br>        + - lib (libsandesha2_client.so)</pre>
+
+<p>You
+run the client samples in&nbsp;samples/bin/sandesha2. To see the messages passing
+through the wire use&nbsp; Tcp Monitor.</p>
+<a id="win"></a>
+
+<h2>2. Installing and Running on Microsoft Windows</h2>
+
+<p>This too can be done using binary or source distributions. (<a href="http://ws.apache.org/sandesha/sandesha2/c/download.cgi">Download</a>
+the two distributions.)</p>
+<a id="win_source"></a>
+
+<h3>2.1. Installing Sandesha2/C Source Release on Windows</h3>
+<ol>
+  <li>You need to have unzipped Axis2/C release distribution to some
+  folder.</li>
+  <li>On your cmd.exe cd to &lt;sandesha2 src&gt;\build\win32 <br>
+    Edit configure.in file with your binary locations. <br>
+  </li>
+  <li>To set necessary environment variables on command line run vcvars32.bat
+    file.</li>
+  <li>Run nmake dist command on command line. This will build the Sandesha2/C
+    binary and samples to a directory sandesha2 in &lt;sandesha2
+    src&gt;\build\sandesha2.</li>
+</ol>
+
+
+
+
+<p>Sandesha2/C deployment structure will have following directory
+structure.</p>
+<pre>    Sandesha2<br>        |<br>        + - Sandesha2 (sandesha2 module dll and module.xml file)<br>        |<br>        + - samples\bin\sandesha2<br>        |<br>        + - include ( header files)<br>        + - lib (sandesha2_client.dll)<br></pre><p>Now you should be able to run the samples.</p>
+
+<h3>Notes</h3>
+<ol>
+  <li>Sandesha2 internally uses an Sqlite3 embedded database. The database file is created
+      in Axis2/C repository directory. You need to set the AXIS2C_HOME environment 
+      variable to point to that directory before running server or clients.
+    <p>If you use Axis2/C Apache2 module instead of simple_axis2_server make
+    sure that Apache2 user can access the above database file.</p>
+    <p>If you do not set the environment variable, be aware that
+    Sandesha2/C will create the database file named sandesha2_db in the
+    current folder.</p>
+    <p></p>
+    </li>
+
+  <li>Sandesha2/C module is installed into
+    &lt;axis2c_deploy_path&gt;/modules/sandesha2c directory. The installed
+    module contain libsandesha2.so, module.xml. The sample clients are
+    installed into &lt;axis2c_deploy_path&gt;/samples/bin/sandesha2 directory. Sample
+    services are installed into &lt;axis2c_deploy_path&gt;/services
+  directory.</li>
+</ol>
+</body></html>

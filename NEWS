@@ -1,0 +1,116 @@
+WSO2 Web Services Framework for C++ (WSO2 WSF/C++) 2.1.0 Released
+=================================================================
+
+WSO2 WSF/C++ team is pleased to announce the release of WSO2 WSF/C++ 2.1.0.
+
+You can download this release from: http://wso2.org/downloads/wsf/cpp
+
+WSO2 Web Services Framework for C++ (WSO2 WSF/C++) is a standards compliant, enterprise
+grade, open source, C++ library for providing and consuming Web services in C++, based on the popular,
+WSO2 WSF/C library.
+
+Project home page:
+http://wso2.org/projects/wsf/cpp
+
+-------------
+Key Features
+=============
+
+1. Client API to consume Web services
+
+      * ServiceClient class with one-way and two-way service invocation support
+        for SOAP 1.1, and SOAP 1.2.
+      * Options class to facilitate configuring the client for both SOAP and REST options.
+
+2. Service API to provide Web Services
+      * ServiceSkeleton class to extend from to implement services.
+
+2. Attachments with MTOM
+
+      * Binary optimized
+      * Non-optimized (Base64 binary)
+      * Attachment Caching Support
+
+3. WS-Addressing
+      * Version 1.0
+      * Submission
+
+4. WSPolicy 
+
+5. WS-Security
+      * Username Token 
+      * Timestamp Token 
+      *  Signing
+      *  Encryption 
+      * WS-SecurityPolicy based configuration  
+      * Reply detection
+      * WS-Trust
+      * WS-Secure Conversation   
+
+6. Codegeneration Tool
+      * By providing a wsdl and options, generate client stubs and service skeletons
+        in C++ using the code generation tool. 
+      * Codegeneration tool Eclipse Plugin is also avialable. The codegeneration tool
+	has been intergrated into an eclispe plugin wizzard which allows a user to conveniently 
+	utilse the codegen tool while working within eclipse. 
+
+7. SSL enabled transport layer
+
+8. WS-Reliable Messaging
+
+9. Has all the capabilities avilable from WSF/C library.
+
+--------------------------------
+Major Changes Since Last Release
+================================
+1. Eclipse Plugin for codegeneration tool added.
+2. Visual Studio project file generation added for codegeneration.
+3. Documentation Improved.
+4. Many bugs fixed in the codegen tool.
+5. Many memory leak fixes.
+6. More samples have been added. 
+7. The Service API has been enhanced to allow users to extend from the generated ServiceSkelton classes.
+
+-------------------
+Known Issues
+-------------------
+There could be memory leaks in some senarios.
+
+-------------------
+Reporting Problems
+===================
+Issues can be reported using the public JIRA available at:
+        https://wso2.org/jira/browse/WSFCPP
+
+-----------
+Contact Us
+===========
+
+Mailing Lists
+-------------
+Please subscribe to our user or developer mailing lists. For details on how
+to subscribe please visit: http://wso2.org/projects/wsf/cpp#mail
+
+
+Discussion Forums
+-----------------
+Questions could be raised using the WSF/C++ forum.
+http://wso2.org/forum/352
+
+
+Training
+========
+WSO2 Inc. offers a variety of professional Training Programs which includes training on WSF/C++. 
+For additional support information please refer to http://wso2.com/training/course-catalog/
+
+Support
+========
+WSO2 Inc. offers a variety of development and production support programs, ranging from Web-based support
+up through normal business hours, to premium 24x7 phone support. For additional support information 
+please refer to http://wso2.com/support/
+
+We welcome your early feedback on this implementation.
+Thank you for your interest in WSO2 WSF/C++.
+
+-- WSO2 WSF/C++ Team --
+

@@ -1,0 +1,89 @@
+When 1000 get status requests were sent at the concurrency of 462 from httperf wso2 esb gives following errors
+
+2009-03-11 05:25:59,549 [127.0.1.1-damitha-laptop] [HttpCoreNIOListener]  WARN HttpCoreNIOListener System may be unstable: IOReactor encountered a checked exception : Too many open files
+java.io.IOException: Too many open files
+    at sun.nio.ch.ServerSocketChannelImpl.accept0(Native Method)
+    at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:145)
+    at org.apache.http.impl.nio.reactor.DefaultListeningIOReactor.processEvent(DefaultListeningIOReactor.java:115)
+    at org.apache.http.impl.nio.reactor.DefaultListeningIOReactor.processEvents(DefaultListeningIOReactor.java:99)
+    at org.apache.http.impl.nio.reactor.AbstractMultiworkerIOReactor.execute(AbstractMultiworkerIOReactor.java:160)
+    at org.apache.synapse.transport.nhttp.HttpCoreNIOListener.startServerEngine(HttpCoreNIOListener.java:129)
+    at org.apache.synapse.transport.nhttp.HttpCoreNIOListener.access$200(HttpCoreNIOListener.java:61)
+    at org.apache.synapse.transport.nhttp.HttpCoreNIOListener$2.run(HttpCoreNIOListener.java:277)
+    at java.lang.Thread.run(Thread.java:619)
+
+And also following warning
+
+2009-03-11 05:31:37,261 [127.0.1.1-damitha-laptop] [HttpServerWorker-18]  WARN HttpCoreNIOSender Connection closed by client : 127.0.0.1
+
+
+I get the following registry error when testing with large concurrency and test loads sending subscriber insert requests
+
+[2009-03-13 10:17:05,839] ERROR -  Could not write an error message as the headers & HTTP status were already committed! {org.apache.abdera.protocol.server.servlet.AbderaServlet}
+[2009-03-13 10:17:06,564] ERROR -  Error servicing request {org.apache.abdera.protocol.server.servlet.AbderaServlet}
+org.apache.abdera.parser.stax.FOMException: com.ctc.wstx.exc.WstxIOException: null
+    at org.apache.abdera.parser.stax.FOMElement.writeTo(FOMElement.java:405)
+    at org.apache.abdera.parser.stax.FOMWriter.writeTo(FOMWriter.java:77)
+    at org.apache.abdera.util.AbstractWriter.writeTo(AbstractWriter.java:82)
+    at org.apache.abdera.parser.stax.FOMElement.writeTo(FOMElement.java:368)
+    at org.apache.abdera.parser.stax.FOMElement.writeTo(FOMElement.java:391)
+    at org.apache.abdera.protocol.server.context.BaseResponseContext.writeTo(BaseResponseContext.java:84)
+    at org.apache.abdera.protocol.server.servlet.AbderaServlet.output(AbderaServlet.java:129)
+    at org.apache.abdera.protocol.server.servlet.AbderaServlet.service(AbderaServlet.java:90)
+    at javax.servlet.http.HttpServlet.service(HttpServlet.java:802)
+    at org.eclipse.equinox.http.helper.ContextPathServletAdaptor.service(ContextPathServletAdaptor.java:36)
+    at org.eclipse.equinox.http.servlet.internal.ServletRegistration.handleRequest(ServletRegistration.java:90)
+    at org.eclipse.equinox.http.servlet.internal.ProxyServlet.processAlias(ProxyServlet.java:111)
+    at org.eclipse.equinox.http.servlet.internal.ProxyServlet.service(ProxyServlet.java:67)
+    at javax.servlet.http.HttpServlet.service(HttpServlet.java:802)
+    at org.wso2.carbon.bridge.BridgeServlet.service(BridgeServlet.java:116)
+    at javax.servlet.http.HttpServlet.service(HttpServlet.java:802)
+    at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:269)
+    at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:188)
+    at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:210)
+    at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:174)
+    at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)
+    at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:117)
+    at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:108)
+    at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:151)
+    at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:870)
+    at org.apache.coyote.http11.Http11BaseProtocol$Http11ConnectionHandler.processConnection(Http11BaseProtocol.java:665)
+    at org.apache.tomcat.util.net.PoolTcpEndpoint.processSocket(PoolTcpEndpoint.java:528)
+    at org.apache.tomcat.util.net.LeaderFollowerWorkerThread.runIt(LeaderFollowerWorkerThread.java:81)
+    at org.apache.tomcat.util.threads.ThreadPool$ControlRunnable.run(ThreadPool.java:685)
+    at java.lang.Thread.run(Thread.java:619)
+Caused by: com.ctc.wstx.exc.WstxIOException: null
+    at com.ctc.wstx.sw.BaseStreamWriter.flush(BaseStreamWriter.java:313)
+    at org.apache.axiom.om.impl.MTOMXMLStreamWriter.flush(MTOMXMLStreamWriter.java:146)
+    at org.apache.axiom.om.impl.llom.OMNodeImpl.serialize(OMNodeImpl.java:462)
+    at org.apache.abdera.parser.stax.FOMElement.writeTo(FOMElement.java:403)
+    ... 29 more
+Caused by: ClientAbortException:  java.net.SocketException: Broken pipe
+    at org.apache.catalina.connector.OutputBuffer.doFlush(OutputBuffer.java:327)
+    at org.apache.catalina.connector.OutputBuffer.flush(OutputBuffer.java:293)
+    at org.apache.catalina.connector.CoyoteOutputStream.flush(CoyoteOutputStream.java:98)
+    at sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:278)
+    at sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:122)
+    at java.io.OutputStreamWriter.flush(OutputStreamWriter.java:212)
+    at com.ctc.wstx.sw.BufferingXmlWriter.flush(BufferingXmlWriter.java:214)
+    at com.ctc.wstx.sw.BaseStreamWriter.flush(BaseStreamWriter.java:311)
+    ... 32 more
+Caused by: java.net.SocketException: Broken pipe
+    at java.net.SocketOutputStream.socketWrite0(Native Method)
+    at java.net.SocketOutputStream.socketWrite(SocketOutputStream.java:92)
+    at java.net.SocketOutputStream.write(SocketOutputStream.java:136)
+    at org.apache.coyote.http11.InternalOutputBuffer.realWriteBytes(InternalOutputBuffer.java:747)
+    at org.apache.tomcat.util.buf.ByteChunk.flushBuffer(ByteChunk.java:432)
+    at org.apache.coyote.http11.InternalOutputBuffer.flush(InternalOutputBuffer.java:305)
+    at org.apache.coyote.http11.Http11Processor.action(Http11Processor.java:992)
+    at org.apache.coyote.Response.action(Response.java:183)
+    at org.apache.catalina.connector.OutputBuffer.doFlush(OutputBuffer.java:322)
+    ... 39 more
+[2009-03-13 10:17:06,572] ERROR -  Could not write an error message as the headers & HTTP status were already committed! {org.apache.abdera.protocol.server.servlet.AbderaServlet}
+
+
+When I send 10,000 get_status requests with concurrency at about 420 when it reaches about 8000 requests
+In registry console I get
+[2009-03-13 15:22:54,396]  INFO -  WSO2 Carbon started in 36 sec {org.wso2.carbon.core.StartupServlet}
+Mar 13, 2009 3:46:36 PM org.apache.tomcat.util.threads.ThreadPool logFull
+SEVERE: All threads (150) are currently busy, waiting. Increase maxThreads (150) or check the servlet status

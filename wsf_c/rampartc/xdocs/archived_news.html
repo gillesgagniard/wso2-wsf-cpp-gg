@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+       "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>Archived News</title>
+ 
+</head>
+
+<body xml:lang="en">
+<h1>Apache Ramaprt/C Archived News</h1>
+
+<p>This page contains information on previous releases running up to the
+latest.</p>
+
+<a id="1.2.0"></a>
+<h3>13th May 2008 - Apache Rampart/C Version 1.2.0 Released</h3>
+<a href="http://ws.apache.org/rampart/c/download.cgi">Download 1.2</a>
+<h4>Key Features</h4>
+<ol>
+<li>Ability to send and verify UsernameTokens with
+    <ul> 
+    <li>Username and PlainText password
+    <li>Username and Digested password
+    </ul>
+<li>Ability to send Timestamp tokens
+<li>SOAP message encryption
+    <ul>
+    <li> With derived key support for improved security
+    <li> Symmetric and Asymmetric modes of operations
+    <li> Support for AES and Tripple DES encryption
+    <li> Signature encryption
+    <li> Keys encryption
+    </ul>
+<li>SOAP message signature
+    <ul>
+    <li> XML signature with RSA-SHA1
+    <li> Message authentication with HMAC-SHA1
+    <li> Signature confirmation support
+    <li> SOAP Header signing
+    </ul>
+<li>WS-Security Policy (spec 1.1) based configurations
+    <ul>
+    <li> Support for both Symmetric as well as Asymmetric policy bindings
+    <li> Support for different modes of key identifiers
+    <li> Support for different algorithm suites<br>
+        [Basic128, Basic 192, Basic256, TrippleDES, Basic128Rsa15, Basic192Rsa15,Basic256Rsa15, TripleDesRsa15]
+     </ul>
+<li>Replay detection support
+    <ul>
+    <li> Easy to use built-in replay detection module
+    <li> Ability to deploy a customized replay detection module
+    </ul>
+<li>Different protection orders
+    <ul>
+    <li> Encrypt before signing
+    <li> Sign before encrypting
+    </ul>
+<li>Extensible modules
+    <ul>
+    <li> Password callback module
+    <li> Authentication module
+    <li> Credentials module
+    </ul>
+<li>Keys management
+    <ul>
+    <li> Support for X509 token profile
+    <li> Support for Key identifiers, Thumb prints, Issuer/Serial pairs, Embedded and Direct references
+    </ul>
+<li> WS-Secure Conversation Language support (Experimental)
+    <ul>
+    <li> Establishing Security Context and thereby maintaining a session
+    <li> Per message key derivation
+    <li> Support for stored securtiy context token
+    </ul>
+<li> WS-Trust Language support (Experimental)
+    <ul>
+    <li> Security Token Services (STS)
+    <li> STS Client
+    <li> Server and Client entrophy support
+    </ul>
+<li>Other
+    <ul>
+    <li> Easy to use deployment scripts
+    <li> A comprehensive set of samples
+    </ul>
+</ol>
+</div><div class="subsection"><a name="Major_Changes_Since_Last_Release"></a><h3>Major Changes Since Last Release</h3><p>
+<ol>
+    <li> WS-Secure Conversation Language support (Experimental)
+    <li> WS-Trust Language support (Experimental)
+    <li> SAML Support
+    <li> Memory leak fixes</li>
+    <li> Many bug fixes</li>
+ </ol>
+
+<a id="1.1.0"></a>
+<h3>16th Jan 2008 - Apache Rampart/C Version 1.1 Released</h3>
+    <a href='http://ws.apache.org/rampart/c/download.cgi'>Download 1.1</a>
+    <h4>Key Features</h4>
+<ol>
+<li>Ability to send and verify UsernameTokens with
+    <ul> 
+    <li>Username and PlainText password
+    </li><li>Username and Digested password
+    </li></ul>
+</li><li>Ability to send Timestamp tokens
+</li><li>SOAP message encryption
+    <ul>
+    <li> With derived key support for improved security
+    </li><li> Symmetric and Asymmetric modes of operations
+    </li><li> Support for AES and Tripple DES encryption
+    </li><li> Signature encryption
+    </li><li> Keys encryption
+    </li></ul>
+</li><li>SOAP message signature
+    <ul>
+    <li> XML signature with RSA-SHA1
+    </li><li> Message authentication with HMAC-SHA1
+    </li><li> Signature confirmation support
+    </li><li> SOAP Header signing
+    </li></ul>
+</li><li>WS-Security Policy (spec 1.1) based configurations
+    <ul>
+    <li> Support for both Symmetric as well as Asymmetric policy bindings
+    </li><li> Support for different modes of key identifiers
+    </li><li> Support for different algorithm suites<br></br>
+        [Basic128, Basic 192, Basic256, TrippleDES, Basic128Rsa15, Basic192Rsa15,Basic256Rsa15, TripleDesRsa15]
+     </li></ul>
+</li><li>Replay detection support
+    <ul>
+    <li> Easy to use built-in replay detection module
+    </li><li> Ability to deploy a customized replay detection module
+    </li></ul>
+</li><li>Different protection orders
+    <ul>
+    <li> Encrypt before signing
+    </li><li> Sign before encrypting
+    </li></ul>
+</li><li>Extensible modules
+    <ul>
+    <li> Password callback module
+    </li><li> Authentication module
+    </li><li> Credentials module
+    </li></ul>
+</li><li>Keys management
+    <ul>
+    <li> Support for X509 token profile
+    </li><li> Support for Key identifiers, Thumb prints, Issuer/Serial pairs, Embedded and Direct references
+    </li></ul>
+</li><li>Other
+    <ul>
+    <li> Easy to use deployment scripts
+    </li><li> A comprehensive set of samples
+    </li></ul>
+</li></ol></div><div class="subsection"><a name="Major_Changes_Since_Last_Release"></a><h3>Major Changes Since Last Release</h3><p>
+<ol>
+    <li> MAC support with HMAC-SHA1
+    </li><li>Derrived key encryption
+    </li><li>Derived key signing
+    </li><li>Symmetric policy bindings
+    </li><li>New security header processor based on SOAP header layout
+    </li><li>Security policy validator
+    </li><li>Extensible Replay detection module
+    </li><li>Signature confirmation support
+    </li><li>Support for X509 thumb prints
+    </li><li>Easy to use deployment scripts
+	</li><li>Memory leak fixes</li>
+	<li>Many bug fixes</li>
+ </ol>
+
+<a id="1.0.0"></a>
+<h3>05th Oct 2007 - Apache Rampart/C Version 1.0 Released</h3>
+    <a href='http://ws.apache.org/rampart/c/download.cgi'>Download 1.0</a>
+    <h4>Key Features</h4>
+<ol>
+    <li><strong>SOAP message encryption</strong> : Allows different parts of a SOAP message to be encrypted to keep the confidentiality of the message</li>
+    <li><strong>SOAP message signature</strong> : Allows different parts of a SOAP message to be signed to keep the integrity of the message</li>
+    <li>Ability to send and verify <strong>UsernameTokens</strong> with</li>
+    <ol>
+        <li>PlainText password</li>
+        <li>Digested password</li>
+        <br>Allows users to send Username tokens for authentication purposes as per Web services security username token profile
+    </ol>
+    <li>Ability to send <strong>Timestamp tokens</strong> : Allows users to add timestamps to their SOAP messages in order to ensure the freshness</li>
+    <li>WS-Security Policy (spec 1.1) Policy based configurations as per WS-Security Policy : Allows users to express their security related requirements and constraints</li>
+<li>Replay detection support</li>
+<li>Improvements to the context model</li>
+<li>Authentication module implementation</li>
+<li>Credentials module implementation</li>
+<li>Improvements to Key/Certificate loading mechanisms</li>
+<li>Easy to use deployment scripts</li>
+</ol>
+
+<a id="0.90"></a>
+<h3>11th May 2007 - Apache Rampart/C Version 0.90 Released</h3>
+    <a href='http://ws.apache.org/rampart/c/download.cgi'>Download 0.90</a>
+    <h4>Key Features</h4>
+   <ol>
+    <li><strong>SOAP message encryption</strong> : Allows different parts of the body of SOAP message to be encrypted to keep the confidentiality of the message</li>
+    <li><strong>SOAP message signature</strong> : Allows different parts of a SOAP message to be signed to keep the integrity of the message</li>
+    <li>Ability to send and verify <strong>UsernameTokens</strong> with</li>
+    <ol>
+        <li>PlainText password</li>
+        <li>Digested password</li>
+        <br>Allows users to send Username tokens for authentication purposes as per Web services security username token profile
+    </ol>
+    <li>Ability to send <strong>Timestamp tokens</strong> : Allows users to add timestamps to their SOAP messages in order to ensure the freshness</li>
+    <li><strong>Policy based configurations</strong>: Allows clients and services to express their security related requirements and constraints</li>
+</ol>
+</body>
+</html>

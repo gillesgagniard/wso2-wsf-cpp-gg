@@ -1,0 +1,12 @@
+<service name="weather">
+    <parameter name="ServiceClass" locked="xsd:false">weather</parameter>
+   <description>
+       This is a sample eventing data source which can be started and stopped remotely by making
+       soap calles to it's start and stop functions respectively.
+   </description>
+   <module ref="savan"/>
+   <operation name="send">
+            <messageReceiver class="savan_msgreceivers" />
+           <parameter name="wsamapping" >http://ws.apache.org/savan/samples/weather/send</parameter>
+   </operation>
+</service>

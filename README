@@ -1,0 +1,89 @@
+             WSO2 WSF/C++
+            ==============
+
+VERSION
+-------
+2.1.0
+
+
+INTRODUCTION
+------------
+- WSO2 Web Services Framework for C++ (WSF/C++) is an extension to WSO2
+  Web Services Framework for C (WSF/C) wrapping the existing API. More on
+  WSF/C can be read at [http://www.wso2.org/projects/wsf/c]. WSF/CPP is a complete
+  web services stack which has supports WS* specifications in addition to SOAP and REST.
+
+
+PREREQUISITES
+-------------
+- None
+
+
+INSTALLATION
+------------
+- Please Refer the installation guide (INSTALL).
+
+
+RUNNING SAMPLES
+---------------
+- Read README.SAMPLES for more information.
+
+
+FEATURES
+--------
+- Client/Service APIs for providing and consuming Web Services
+- Support for SOAP 1.1 and SOAP 1.2
+- Support for WS-Addressing
+- Support WS-Security
+- Support WS-Secure Conversationn
+- Support WS-RM
+- Support WS-SecurityPolicy
+- Support for REST Style invocations
+- Support for MTOM/XOP attachments.
+
+
+THE LATEST VERSION
+------------------
+- Details of the latest version can be found on the WSO2 WSF/C++
+  project page under http://wso2.org/projects/wsf/cpp.
+
+
+LICENSING
+---------
+- WSO2 WSF/C++ is released under Apache License Version 2.0.
+  Please see the file called LICENSE.
+
+
+CONTACTS
+--------
+- If you want freely available support for using WSO2 WSF/C++ please
+  join the WSO2 WSF/C++ user community by subscribing to users mailing
+  list, wsf-cpp-user@wso2.org by sending an email to
+  'wsf-cpp-user-request@wso2.org' with the subject 'subscribe'.
+
+- If you have a bug report for WSO2 WSF/C++ please go log a Jira issue
+  at https://wso2.org/jira/browse/WSFCPP
+
+- If you want to participate in actively developing WSO2 WSF/C++ please
+  subscribe to the 'wsf-c-dev@wso2.org' by sending and email to
+  wsf-c-dev-request@wso2.org with the subject 'subscribe'. Please append
+  prefix '[C++]' in the subject for all further communication.
+
+
+TRAINING
+--------
+- WSO2 Inc. offers a variety of professional Training Programs, including
+  training on general Web services as well as WSO2 WSF/C++.
+
+- For additional support information please refer to
+  http://wso2.com/training/course-catalog/
+
+
+SUPPORT
+-------
+- WSO2 Inc. offers a variety of development and production support
+  programs, ranging from Web-based support up through normal business
+  hours, to premium 24x7 phone support.
+
+- For additional support information please refer to 
+  http://wso2.com/support/

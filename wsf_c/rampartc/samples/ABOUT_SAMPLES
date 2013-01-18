@@ -1,0 +1,65 @@
+Following is a brief description of Rampart/C samples
+
+Service : ./server/sec_echo
+---------------------------
+The security enabled service. Depends on deployed security policy scenario.
+
+Service : ./server/secconv_echo
+---------------------------
+The service act as the Security Token Service (STS). Depends on deployed security policy scenario.
+
+Service : ./server/saml_sts
+---------------------------
+The service act as STS for SAML tokens. 
+
+Client: ./client/sec_echo
+---------------------------
+The client to send secured SOAP messages. Depends on deployed security policy scenario.
+
+Client: ./client/saml_echo
+---------------------------
+Client uses SAML token as sign supporting token. 
+
+Client: ./client/saml_protect
+------------------------------
+Client uses SAML token to encrypt and sign the message
+
+Security policies: ./secpolicy/scenarioX
+--------------------------------------
+Provides several identified scenarios to demonstrate features of RampartC.
+Please read the README file under ./secpolicy to learn more about them.
+
+Callbacks : ./callback
+---------------------------
+To retrieve passwords for a particular user, Rampart/C uses password callback mechanism.
+Such callback modules can be plugged into Rampart/C by defining them in the policy assertions.
+The sample shows how to write a simple password callback module.
+
+Credential Provider: ./credential_provider
+------------------------------------------------
+In the client side it's possible to give a username/password pair to the client, using a credential_provider.
+Similar to Callbacks, these can too plugged into Rampart/C by defining them in the policy assertions.
+The sample shows how to write a simple credentials provider.
+
+Authentication Provider : ./authn_provider
+----------------------------------------------
+In the server side, in order to validate a usernametoken in more application specific way, an authentication module can be used.
+The authentication module gets both the username and the password and returns a status code back to Rampart/C.
+The sample shows how to write a simple authentication provider.
+
+Replay Detector : ./replay_detector
+---------------------------------------------
+Replay attacks can be identified and removed from the server side. Replay detector module shows one such implementation where it stores
+last 5 message IDs and check whether there are any replays. 
+
+Security Context Token Provider : ./sct_provider
+--------------------------------------------------
+To store and retrieve Security Context Token. Can be used in server side as well as in client side. 
+
+Keys : ./keys
+------------------
+All the certificates, private keys and key stores are used by samples are placed here.
+
+Data : ./data
+-------------------
+Data files that are used by samples, placed here.

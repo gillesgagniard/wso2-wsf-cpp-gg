@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "savan", "savan\savan.vcproj", "{735791B4-59F1-4348-A811-0E6348A35590}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "msg_recv", "msg_recv\msg_recv.vcproj", "{A8334FCC-993E-4D3B-9763-6266D64E4F58}"
+	ProjectSection(ProjectDependencies) = postProject
+		{735791B4-59F1-4348-A811-0E6348A35590} = {735791B4-59F1-4348-A811-0E6348A35590}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "client", "client\client.vcproj", "{32602076-255C-44B8-B1E1-F89F828313D6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "subscription", "subscription\subscription.vcproj", "{131962E4-14CB-41D8-849F-08D4FAA550FF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{735791B4-59F1-4348-A811-0E6348A35590}.Debug|Win32.ActiveCfg = Debug|Win32
+		{735791B4-59F1-4348-A811-0E6348A35590}.Debug|Win32.Build.0 = Debug|Win32
+		{735791B4-59F1-4348-A811-0E6348A35590}.Release|Win32.ActiveCfg = Release|Win32
+		{735791B4-59F1-4348-A811-0E6348A35590}.Release|Win32.Build.0 = Release|Win32
+		{A8334FCC-993E-4D3B-9763-6266D64E4F58}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A8334FCC-993E-4D3B-9763-6266D64E4F58}.Debug|Win32.Build.0 = Debug|Win32
+		{A8334FCC-993E-4D3B-9763-6266D64E4F58}.Release|Win32.ActiveCfg = Release|Win32
+		{A8334FCC-993E-4D3B-9763-6266D64E4F58}.Release|Win32.Build.0 = Release|Win32
+		{32602076-255C-44B8-B1E1-F89F828313D6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{32602076-255C-44B8-B1E1-F89F828313D6}.Debug|Win32.Build.0 = Debug|Win32
+		{32602076-255C-44B8-B1E1-F89F828313D6}.Release|Win32.ActiveCfg = Release|Win32
+		{32602076-255C-44B8-B1E1-F89F828313D6}.Release|Win32.Build.0 = Release|Win32
+		{131962E4-14CB-41D8-849F-08D4FAA550FF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{131962E4-14CB-41D8-849F-08D4FAA550FF}.Debug|Win32.Build.0 = Debug|Win32
+		{131962E4-14CB-41D8-849F-08D4FAA550FF}.Release|Win32.ActiveCfg = Release|Win32
+		{131962E4-14CB-41D8-849F-08D4FAA550FF}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

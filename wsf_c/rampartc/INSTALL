@@ -1,0 +1,134 @@
+Table of contents
+=================
+    |_ Prerequisites
+    |_ Getting Rampart/C source working on Linux
+    |_ Getting Rampart/C binary distribution working on Linux
+    |_ Getting Rampart/C source working on Win32
+    |_ Getting Rampart/C binary working on Win32
+    |_ Engaging Rampart/C with axis2/C
+    |_ Try samples on Linux
+    |_ Try samples on Win32
+
+Prerequisites
+=============
+You have to have openssl installed in your system. 
+All the binary packs were built with openssl 0.9.8k
+
+Getting Rampart/C source working on Linux
+=========================================
+Build the source
+
+This can be done using the following command sequence:
+        ./configure --prefix=${AXIS2C_HOME} --enable-static=no --with-axis2=${AXIS2C_HOME}/include/axis2-1.6.0
+        make
+        make install
+
+If you need to try samples,first you need to build them.
+Go to samples and run the script build.sh.
+        %sh build.sh
+Then go to  samples/secpolicy and try a scenario
+        %sh test_scen.sh scenarioX server-port
+
+Getting Rampart/C binary distribution working on Linux
+======================================================
+1. Copy modules/* to $AXIS2C_HOME/modules/
+2. Copy lib/* to $AXIS2C_HOME/lib
+3. Copy services/* to $AXIS2C_HOME/services/
+4. Engage rampart as described in section "Engaging Rampart/C with axis2/C"
+5. Copy samples/* to $AXIS2C_HOME/samples/. This will copy callback modules etc.
+6. Go to samples/src/rampartc/client/ and deploy the client repo 
+    %sh deploy_client_repo.sh
+7. Go to samples/src/rampartc/secpolicy/ and try a scenario
+    %sh test_scen.sh scenarioX server-port
+
+
+Getting Rampart/C source working on Win32
+=========================================
+
+1. Set the AXIS2C_HOME envirionment variable to direct to your Axis2/C Installation.
+	SET AXIS2C_HOME=[your-path-to-axis2c]
+
+2. Extract the source package and build the source.
+	Unzip the source package.
+	Go to the "build\win32" directory of the distribution.
+	Set the parameters of the configure.in
+		AXIS2_BIN_DIR = <path/to/where/you/have/installed/axis2>
+		OPENSSL_BIN_DIR = <path/to/where/you/have/installed/openssl>
+		DEBUG = <1 if enabled, 0 otherwise>
+   
+    Run vcvars32.bat
+        This is to access .Net tools (Note: You may need to set the PATH environment
+                                        variable to  vcvars32.bat if Windows complains
+                                        that it cannot find this bat)
+
+	Run "nmake install"
+
+3. Engage Rampart/C with Axis2/C as described in the "Engaging Rampart/C with axis2/C" section.
+
+
+Getting Rampart/C binary distribution working on Win32
+======================================================
+
+1. Set the AXIS2C_HOME envirionment variable to direct to your Axis2/C Installation.
+	SET AXIS2C_HOME=[your-path-to-axis2c]
+
+2. Run the deploy_rampart.bat that could be found in the root of the rampart binary distribution.
+	deploy_rampart.bat
+
+3. Engage Rampart/C with Axis2/C as described in the "Engaging Rampart/C with axis2/C" section.
+
+Engaging Rampart/C with axis2/C
+===============================
+Prerequisites:
+You must have openssl installed in you system.
+
+Configuring:
+You can engage Rampart/C in global level or in service level.
+Add following entry either to axis2.xml(gloabl level) or in services.xml(service level).
+    <module ref="rampart"/>
+
+If you want to provide Secure Token Service (STS) functionality to a service, add the following entry to services.xml. 
+    <module ref="rahas"/>
+
+Then add following Security phase to the phase order in the inflow and outflow in the axis2.xml.
+	<phaseOrder type="inflow">
+        <phase name="Transport"/>
+        <phase name="PreDispatch"/>
+        <phase name="Dispatch"/>
+        <phase name="PostDispatch"/>
+		<phase name="Security" />
+        <phase name="Rahas"/>
+    </phaseOrder>
+    <phaseOrder type="outflow">
+        <phase name="MessageOut"/>
+        <phase name="Security"/>
+    </phaseOrder>
+
+To specify policies in the client side, please drop your policy.xml to the same directory where the axis2.xml is in.
+To specify policies in the server side, please add policy assertions to the services.xml.
+Please find such sample policy files under samples/secpolicy/scenarioX. 
+Note that you must replace both the client and service policies for a particular scenario.
+
+Try samples on Linux
+===============================
+There are several scenarios available under samples/secpolicy (or samples/src/rampartc/secpolicy if you are using binary distribution)
+Run a scenario that you'd like to try using the script test_scen.sh
+    Syntax: test_scen.sh scenario server_port
+    E.g. %sh test_scen.sh scenario3 9090
+Note: You may use a TCP Monitor to see the wire content. In that case replace the server_port with the target port.
+
+Try samples on Win32
+===============================
+
+There are several scenarios that you can try out with the sec_echo sample of the Rampart/C distribution.
+You can find more about it from the README file inside samples\secpolicy folder. (or samples\src\rampartc\secpolicy if you are using binary distribution)
+
+1. Set the AXIS2C_HOME envirionment variable to direct to your Axis2/C Installation.
+	SET AXIS2C_HOME=[your-path-to-axis2c]
+
+Run a scenario that you'd like to try using the script test_scen.bat
+    Syntax: test_scen.bat scenario server_port
+    E.g. test_scen.bat scenario3 9090
+Note: You may use a TCP Monitor to see the wire content. In that case replace the server_port with the target port.
+
+Thank you for using Rampart/C

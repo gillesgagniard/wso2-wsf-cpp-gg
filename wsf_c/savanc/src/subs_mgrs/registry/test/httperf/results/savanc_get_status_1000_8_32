@@ -1,0 +1,29 @@
+httperf --hog --timeout=60 --client=0/1 --server=10.100.1.44 --port=80 --uri=/axis2/services/weather --max-piped-calls=8 --rate=32 --send-buffer=4096 --recv-buffer=16384 --add-header='Content-type:application/soap+xml;charset=UTF-8\n' --method=POST --wsesslog=10000,0.000,savanc_temp
+Maximum connect burst length: 2
+
+Total: connections 10000 requests 10000 replies 10000 test-duration 312.478 s
+
+Connection rate: 32.0 conn/s (31.2 ms/conn, <=9 concurrent connections)
+Connection time [ms]: min 1.5 avg 10.8 max 555.7 median 8.5 stddev 15.9
+Connection time [ms]: connect 1.6
+Connection length [replies/conn]: 1.000
+
+Request rate: 32.0 req/s (31.2 ms/req)
+Request size [B]: 804.0
+
+Reply rate [replies/s]: min 31.8 avg 32.0 max 32.2 stddev 0.1 (62 samples)
+Reply time [ms]: response 9.1 transfer 0.0
+Reply size [B]: header 155.0 content 709.0 footer 0.0 (total 864.0)
+Reply status: 1xx=0 2xx=10000 3xx=0 4xx=0 5xx=0
+
+CPU time [s]: user 43.77 system 261.73 (user 14.0% system 83.8% total 97.8%)
+Net I/O: 52.1 KB/s (0.4*10^6 bps)
+
+Errors: total 0 client-timo 0 socket-timo 0 connrefused 0 connreset 0
+Errors: fd-unavail 0 addrunavail 0 ftab-full 0 other 0
+
+Session rate [sess/s]: min 31.80 avg 32.00 max 32.21 stddev 0.07 (10000/10000)
+Session: avg 1.00 connections/session
+Session lifetime [s]: 0.0
+Session failtime [s]: 0.0
+Session length histogram: 0 10000

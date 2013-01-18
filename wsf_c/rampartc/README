@@ -1,0 +1,80 @@
+
+                          Apache Rampart/C
+
+  What is it?
+  -----------
+
+  Apache Rampart/C is the security module of the Apache Axis2/C. Rampart/C 
+  is an effort to implement WS-Security sepcification in C language. 
+  In addition Apache Rampart/C configurations are based on security policy assertions as per WS-Security Policy specificatoin.
+  Please have a look at http://ws.apache.org/rampart/c/ for more information.
+  
+  As a project of the Apache Software Foundation, the
+  developers aim to collaboratively develop and maintain a robust,
+  commercial-grade, standards-based Web Services stack implementation with 
+  freely available source code.
+
+  The Latest Version
+  ------------------
+
+  You can get the latest svn checkout of Apache RampartC module from
+
+  https://svn.apache.org/repos/asf/webservices/rampart/trunk/c
+
+  Installation
+  ------------
+
+  Please see the file called INSTALL.
+
+  Licensing
+  ---------
+
+  Please see the file called LICENSE.
+
+  Contacts
+  --------
+
+     o If you want freely available support for using Apache Rampart/C please
+       join the Apache Axis2/C user community by subscribing to users mailing
+       list, axis-c-user@ws.apache.org' as described at
+       http://ws.apache.org/axis2/c/mail-lists.html
+
+     o If you have a bug report for Apache Rampart/C please go log a Jira issue
+       at http://issues.apache.org/jira/browse/RAMPARTC
+
+     o If you want to participate in actively developing Apache Rampart/C please
+       subscribe to the `rampart-c-dev@ws.apache.org' mailing list as described at
+       http://ws.apache.org/rampart/c/lists_issues.html
+
+  Acknowledgments
+  ----------------
+
+  Apache Rampart/C relies heavily on the use of autoconf and libtool to provide
+  a build environment. And also it uses openssl.
+
+  TSU NOTIFICATION - Encryption
+  --------------------------------
+  
+   This distribution includes cryptographic software.  The country in 
+   which you currently reside may have restrictions on the import, 
+   possession, use, and/or re-export to another country, of 
+   encryption software.  BEFORE using any encryption software, please 
+   check your country's laws, regulations and policies concerning the
+   import, possession, or use, and re-export of encryption software, to 
+   see if this is permitted.  See <http://www.wassenaar.org/> for more
+   information.
+
+   The U.S. Government Department of Commerce, Bureau of Industry and
+   Security (BIS), has classified this software as Export Commodity 
+   Control Number (ECCN) 5D002.C.1, which includes information security
+   software using or performing cryptographic functions with asymmetric
+   algorithms.  The form and manner of this Apache Software Foundation
+   distribution makes it eligible for export under the License Exception
+   ENC Technology Software Unrestricted (TSU) exception (see the BIS 
+   Export Administration Regulations, Section 740.13) for both object 
+   code and source code.
+
+   The following provides more details on the included cryptographic
+   software:
+   		http://www.openssl.org/
+    

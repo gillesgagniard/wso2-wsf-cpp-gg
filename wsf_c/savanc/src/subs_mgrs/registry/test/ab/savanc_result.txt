@@ -1,0 +1,46 @@
+This is ApacheBench, Version 2.0.40-dev <$Revision: 1.146 $> apache-2.0
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Copyright 2006 The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+
+
+Server Software:        Axis2C/1.6.0
+Server Hostname:        localhost
+Server Port:            9091
+
+Document Path:          /axis2/services/weather
+Document Length:        1084 bytes
+
+Concurrency Level:      50
+Time taken for tests:   861.487772 seconds
+Complete requests:      1000
+Failed requests:        0
+Write errors:           0
+Total transferred:      1260000 bytes
+Total POSTed:           986000
+HTML transferred:       1084000 bytes
+Requests per second:    1.16 [#/sec] (mean)
+Time per request:       43074.390 [ms] (mean)
+Time per request:       861.488 [ms] (mean, across all concurrent requests)
+Transfer rate:          1.43 [Kbytes/sec] received
+                        1.12 kb/s sent
+                        2.55 kb/s total
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.2      0       2
+Processing:  1451 42262 20071.9  49219  125926
+Waiting:     1451 42262 20071.9  49219  125925
+Total:       1451 42262 20071.9  49219  125926
+
+Percentage of the requests served within a certain time (ms)
+  50%  49219
+  66%  54035
+  75%  56052
+  80%  57183
+  90%  59529
+  95%  61369
+  98%  79516
+  99%  113096
+ 100%  125926 (longest request)

@@ -1,0 +1,18 @@
+<service name="math">
+    <parameter name="ServiceClass" locked="xsd:false">math</parameter>
+   <description>
+        This is a testing service, named 'math' to test multiple operations in the same service
+   </description>
+    <operation name="add">
+            <messageReceiver class="wsf_cpp_msg_recv"/>
+    </operation>
+    <operation name="sub">
+            <messageReceiver class="wsf_cpp_msg_recv"/>
+    </operation>
+    <operation name="mul">
+            <messageReceiver class="wsf_cpp_msg_recv"/>
+    </operation>
+    <operation name="div">
+            <messageReceiver class="wsf_cpp_msg_recv"/>
+    </operation>
+</service>

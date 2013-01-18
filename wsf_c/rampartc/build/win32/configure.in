@@ -1,0 +1,12 @@
+# Set the path to axis2 binary installation.
+AXIS2_BIN_DIR = E:\axis2c\build\deploy
+
+# Set the path to OpenSSL binary installation (ver 0.9.8a or above).
+OPENSSL_BIN_DIR = C:\OpenSSL
+
+# Set this to 1 if debug code should be generated, 0 otherwise.
+DEBUG = 0
+#CRUNTIME Libaray ( Use /MT or /MD)
+CRUNTIME=/MT
+
+EMBED_MANIFEST=0

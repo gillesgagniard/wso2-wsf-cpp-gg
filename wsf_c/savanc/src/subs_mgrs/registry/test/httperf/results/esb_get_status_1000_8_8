@@ -1,0 +1,29 @@
+httperf --hog --timeout=60 --client=0/1 --server=localhost --port=8280 --uri=/services/SampleEventSource --max-piped-calls=8 --rate=8 --send-buffer=4096 --recv-buffer=16384 --add-header='Content-type:application/soap+xml;charset=UTF-8\n' --method=POST --wsesslog=1000,0.000,esb_input2
+Maximum connect burst length: 5
+
+Total: connections 1000 requests 1000 replies 1000 test-duration 125.247 s
+
+Connection rate: 8.0 conn/s (125.2 ms/conn, <=18 concurrent connections)
+Connection time [ms]: min 168.5 avg 566.6 max 2547.2 median 501.5 stddev 270.7
+Connection time [ms]: connect 2.1
+Connection length [replies/conn]: 1.000
+
+Request rate: 8.0 req/s (125.2 ms/req)
+Request size [B]: 810.0
+
+Reply rate [replies/s]: min 5.6 avg 8.0 max 9.0 stddev 0.6 (24 samples)
+Reply time [ms]: response 563.8 transfer 0.7
+Reply size [B]: header 246.0 content 541.0 footer 2.0 (total 789.0)
+Reply status: 1xx=0 2xx=1000 3xx=0 4xx=0 5xx=0
+
+CPU time [s]: user 1.61 system 11.12 (user 1.3% system 8.9% total 10.2%)
+Net I/O: 12.5 KB/s (0.1*10^6 bps)
+
+Errors: total 0 client-timo 0 socket-timo 0 connrefused 0 connreset 0
+Errors: fd-unavail 0 addrunavail 0 ftab-full 0 other 0
+
+Session rate [sess/s]: min 5.60 avg 7.98 max 9.00 stddev 0.61 (1000/1000)
+Session: avg 1.00 connections/session
+Session lifetime [s]: 0.6
+Session failtime [s]: 0.0
+Session length histogram: 0 1000
