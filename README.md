@@ -14,10 +14,17 @@ As the original software, this WSF/C++ modification is licensed under the Apache
 Build instructions
 ------------------
 
+### Linux
+
 Linux build has been successfully tested on FC18 with the following configure command :
 
+    ./autogen.sh
     ./configure --prefix=<PREFIX> --disable-wsclient --disable-sandesha --disable-savan --enable-openssl --with-openssl --with-axis2=`pwd`/wsf_c/axis2c/include
 
-This will yield a WSF/C++ installation with Rampart and SSL enabled.
+This will create a WSF/C++ installation with Rampart and SSL enabled. Don't use `build.sh` since it will directly tinker various autoconf/automake scripts in your source tree, which is incredibly dirty and dangerous.
 
-The configure scripts are a bit tricky, so other flag combinations can entail unexpected results.
+The configure scripts are a bit tricky, so other flag combinations can yield unexpected results.
+
+### Windows
+
+Just use `build.bat` and follow `README.INSTALL.WINDOWS`.

@@ -1,7 +1,6 @@
 Makefile.in
 Makefile
 aclocal.m4
-autom4te.cache
 config.guess
 config.h.in
 config.sub
@@ -10,7 +9,6 @@ depcomp
 install-sh
 ltmain.sh
 missing
-.deps
 config.h
 config.log
 config.status
@@ -18,4 +16,11 @@ libtool
 stamp-h1
 confdefs.h
 
+autom4te.cache/
+.deps/
+.libs/
+
 *~
+*.o
+*.lo
+*.la
