@@ -2,6 +2,7 @@ WSO2 WSF/C++
 ============
 
 Upstream project : http://wso2.com/products/web-services-framework/cpp/
+
 Upstream SVN trunk : https://svn.wso2.org/repos/wso2/trunk/wsf/cpp/
 
 > The WSO2 Web Services Framework for C++ is one of the most comprehensive Web Services Frameworks available for the C++ world, providing simple APIs for implementing Web services and Web service clients.
@@ -15,7 +16,7 @@ Build instructions
 
 Linux build has been successfully tested on FC18 with the following configure command :
 
-    ./configure --prefix=<PREFIX> --disable-wsclient --disable-sandesha --disable-savan --enable-openssl --with-openssl --with-axis2
+    ./configure --prefix=<PREFIX> --disable-wsclient --disable-sandesha --disable-savan --enable-openssl --with-openssl --with-axis2=`pwd`/wsf_c/axis2c/include
 
 This will yield a WSF/C++ installation with Rampart and SSL enabled.
 

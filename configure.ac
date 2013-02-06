@@ -134,7 +134,7 @@ AC_ARG_WITH(axis2,
     if test -d $withval; then
         AXIS2INC="-I$withval"
     dnl else find the axis2inc include dir in $(WSFCPP_HOME)/include
-    elif [ -d "$abs_top_builddir" ]; then
+    elif test -d "$abs_top_builddir"; then
             AXIS2INC="-I$abs_top_builddir/wsf_c/axis2c/include"
     else
         AC_MSG_ERROR(could not find axis2inc. stop)
