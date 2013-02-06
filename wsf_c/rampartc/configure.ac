@@ -49,8 +49,9 @@ AC_CHECK_LIB(dl, dlopen)
 
 CFLAGS="$CFLAGS -D_LARGEFILE64_SOURCE -g3"
 if test "$GCC" = "yes"; then
-    CFLAGS="$CFLAGS -ansi -Wall -Werror -ggdb -Wno-implicit-function-declaration"
-    #CFLAGS="$CFLAGS -ansi -Wall -Wno-implicit-function-declaration"
+    # don't pretend rampart can build without any warnings :)
+    #CFLAGS="$CFLAGS -ansi -Wall -Werror -ggdb -Wno-implicit-function-declaration"
+    CFLAGS="$CFLAGS -ansi -Wall -Wno-implicit-function-declaration"
 fi
 
 LDFLAGS="$LDFLAGS -lpthread"
@@ -79,9 +80,12 @@ AC_ARG_WITH(axis2,
     dnl Find axis2 include dir in the path
     if test -d $withval; then
         axis2inc="-I$withval"
+	axis2_utilinc="-I$withval/../util/include"
+	axiominc="-I$withval/../axiom/include"
+	neethiinc="-I$withval/../neethi/include"
     dnl else find the axis2inc include dir in $(AXIS2C_HOME)/include
-    elif test -d '$(AXIS2C_HOME)/include/axis2-1.6.0'; then
-        axis2inc="-I$(AXIS2C_HOME)/include/axis2-1.6.0"
+    elif test -d '$(AXIS2C_HOME)/include/axis2-1.7.0'; then
+        axis2inc="-I$(AXIS2C_HOME)/include/axis2-1.7.0"
     else
         AC_MSG_ERROR(could not find axis2inc. stop)
     fi
