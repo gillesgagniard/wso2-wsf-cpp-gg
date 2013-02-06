@@ -303,7 +303,7 @@ axutil_stream_write_basic(
 
     new_len = (int)(stream->len + count);
     /* We are sure that the difference lies within the int range */
-    if(new_len > stream->max_len)
+    if(new_len >= stream->max_len)
     {
         axis2_char_t *tmp = (axis2_char_t *)AXIS2_MALLOC(env->allocator, sizeof(axis2_char_t)
             * (new_len + AXIS2_STREAM_DEFAULT_BUF_SIZE));
