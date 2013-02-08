@@ -145,6 +145,12 @@ class WSDL2CPP_EXTERN <xsl:value-of select="@name"/> : public wso2wsf::Stub
         public:
         /**
          *  Constructor of <xsl:value-of select="@servicename"/> class
+         *  
+         */
+        <xsl:value-of select="@name"/>();
+
+	/**
+         *  Constructor of <xsl:value-of select="@servicename"/> class
          *  @param client_home WSF/C home directory
          *  
          */

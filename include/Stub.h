@@ -66,6 +66,8 @@ namespace wso2wsf
 		 */ 	 
 		WSF_EXTERN void WSF_CALL init(std::string& client_home, std::string& endpointUri);
 
+		WSF_EXTERN void WSF_CALL init(std::string& endpointUri);
+
 		/**
 		 * getOptions method is used to obtain a pointer to the Stub Object's underlying options instance.
 		 * @returns A pointer to the Options Object instance

@@ -57,6 +57,16 @@
       /**
        * <xsl:value-of select="@name"/> CPP implementation
        */
+       <xsl:value-of select="@name"/>::<xsl:value-of select="@name"/>()
+        {
+                std::string endpointUri= getEndpointUriOf<xsl:value-of select="$servicename"/>();
+
+                init(endpointUri);
+
+                populateServicesFor<xsl:value-of select="$servicename"/>();
+        }
+
+
        <xsl:value-of select="@name"/>::<xsl:value-of select="@name"/>(std::string&amp; clientHome)
         {
                 if(clientHome.empty())
