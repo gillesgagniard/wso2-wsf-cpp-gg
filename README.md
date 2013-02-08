@@ -20,6 +20,7 @@ Linux build has been successfully tested on FC18 with the following configure co
 
     ./autogen.sh
     ./configure --prefix=<PREFIX> --disable-wsclient --disable-sandesha --disable-savan --enable-openssl --with-openssl --with-axis2=`pwd`/wsf_c/axis2c/include
+    ./build_codegen.sh <PREFIX>
 
 This will create a WSF/C++ installation with Rampart and SSL enabled. Don't use `build.sh` since it will directly tinker various autoconf/automake scripts in your source tree, which is incredibly dirty and dangerous.
 
