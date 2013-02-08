@@ -374,7 +374,7 @@
             <xsl:if test="property/@type='axutil_qname_t*' or itemtype/@type='axutil_qname_t*'">
               const axis2_char_t *cp_ro = NULL;
               bool prefix_found = false;
-              axiom_namespace_t *qname_ns;
+              axiom_namespace_t *qname_ns = NULL;
             </xsl:if>
 
             <xsl:if test="itemtype">
@@ -459,17 +459,17 @@
                         if(prefix_found)
                         {
                             /* node value contain the prefix */
-                            char *prefix_value = AXIS2_MALLOC(env->allocator, (cp_ro - node_value - 1) + 1);
-                            strncpy(prefix, node_value, (cp_ro - node_value - 1));
-                            prefix[cp_ro - node_value - 1] = '\0';
+                            char *prefix_value = (char*)AXIS2_MALLOC(Environment::getEnv()->allocator, (cp_ro - node_value - 1) + 1);
+                            strncpy(prefix_value, node_value, (cp_ro - node_value - 1));
+                            prefix_value[cp_ro - node_value - 1] = '\0';
                             qname_ns = axiom_element_find_namespace_uri((axiom_element_t*)axiom_node_get_data_element(parent, Environment::getEnv()), Environment::getEnv(), prefix_value, parent);
                             AXIS2_FREE(Environment::getEnv()->allocator, prefix_value);
                         }
                         else
                         {
                             /* Then it is the default namespace */
-                            cp_ro = node_value;
-                            qname_ns = axiom_element_get_default_namespace((axiom_element_t*)axiom_node_get_data_element(parent, Environment::getEnv()), Environment::getEnv(), parent);
+			    cp_ro = node_value;
+			    qname_ns = axiom_element_get_namespace((axiom_element_t*)axiom_node_get_data_element(parent, Environment::getEnv()), Environment::getEnv(), parent);
                         }
 
                          <!-- we are done extracting info, just set the extracted value to the qname -->
@@ -752,7 +752,7 @@
                else
                {
                    /* this is hoping that attribute is stored in "http://www.w3.org/2001/XMLSchema-instance", this happnes when name is in default namespace */
-                   attrib_text = axiom_element_get_attribute_value_by_name(current_element, Environment::getEnv(), "type");
+                   attrib_text = axiom_element_get_attribute_value_by_name(current_element, Environment::getEnv(), (char*)"type");
                }
 
                if(attrib_text)
@@ -956,7 +956,7 @@
         if(parent)
         {
             axis2_char_t *attrib_text = NULL;
-            attrib_text = axiom_element_get_attribute_value_by_name((axiom_element_t*)axiom_node_get_data_element(parent, Environment::getEnv()), Environment::getEnv(), "nil");
+            attrib_text = axiom_element_get_attribute_value_by_name((axiom_element_t*)axiom_node_get_data_element(parent, Environment::getEnv()), Environment::getEnv(), (char*)"nil");
             if (attrib_text != NULL &amp;&amp; !axutil_strcasecmp(attrib_text, "true"))
             {
               <xsl:choose>
@@ -1197,7 +1197,7 @@
                   }
                   else
                   {
-                    attrib_text = axiom_element_get_attribute_value_by_name(parent_element, Environment::getEnv(), "<xsl:value-of select="$propertyName"/>");
+                    attrib_text = axiom_element_get_attribute_value_by_name(parent_element, Environment::getEnv(), (char*)"<xsl:value-of select="$propertyName"/>");
                   }
                   if(qname)
                   {
@@ -1238,7 +1238,7 @@
                   else
                   {
                     /* this is hoping that attribute is stored in "<xsl:value-of select="$propertyName"/>", this happnes when name is in default namespace */
-                    attrib_text = axiom_element_get_attribute_value_by_name(parent_element, Environment::getEnv(), "<xsl:value-of select="$propertyName"/>");
+                    attrib_text = axiom_element_get_attribute_value_by_name(parent_element, Environment::getEnv(), (char*)"<xsl:value-of select="$propertyName"/>");
                   }
 
                   if(attrib_text != NULL)
@@ -1549,7 +1549,7 @@
                                             else
                                             {
                                                 /* this is hoping that attribute is stored in "http://www.w3.org/2001/XMLSchema-instance", this happnes when name is in default namespace */
-                                                attrib_text = axiom_element_get_attribute_value_by_name(current_element, Environment::getEnv(), "nil");
+                                                attrib_text = axiom_element_get_attribute_value_by_name(current_element, Environment::getEnv(), (char*)"nil");
                                             }
 
                                             if(attrib_text &amp;&amp; 0 == axutil_strcmp(attrib_text, "1"))
@@ -1994,7 +1994,7 @@
                                               else
                                               {
                                                   /* this is hoping that attribute is stored in "http://www.w3.org/2001/XMLSchema-instance", this happnes when name is in default namespace */
-                                                  attrib_text = axiom_element_get_attribute_value_by_name(current_element, Environment::getEnv(), "nil");
+                                                  attrib_text = axiom_element_get_attribute_value_by_name(current_element, Environment::getEnv(), (char*)"nil");
                                               }
                                              
                                               if(attrib_text &amp;&amp; 0 == axutil_strcmp(attrib_text, "1"))
@@ -2486,7 +2486,7 @@
                                               else
                                               {
                                                   /* this is hoping that attribute is stored in "http://www.w3.org/2001/XMLSchema-instance", this happnes when name is in default namespace */
-                                                  attrib_text = axiom_element_get_attribute_value_by_name(current_element, Environment::getEnv(), "nil");
+                                                  attrib_text = axiom_element_get_attribute_value_by_name(current_element, Environment::getEnv(), (char*)"nil");
                                               }
                                              
                                               if(attrib_text &amp;&amp; 0 == axutil_strcmp(attrib_text, "1"))
@@ -3898,7 +3898,7 @@
 
 
             <xsl:if test="@type">
-              string_to_stream = "&gt;"; <!-- The ending tag of the parent -->
+              string_to_stream = (char*)"&gt;"; <!-- The ending tag of the parent -->
               axutil_stream_write(stream, Environment::getEnv(), string_to_stream, axutil_strlen(string_to_stream));
               tag_closed = 1;
             </xsl:if>
@@ -3990,7 +3990,7 @@
             <xsl:if test="@simple">
                if(!parent_tag_closed &amp;&amp; !tag_closed)
                {
-                  text_value = "&gt;"; <!-- The ending tag of the parent -->
+                  text_value = (char*)"&gt;"; <!-- The ending tag of the parent -->
                   axutil_stream_write(stream, Environment::getEnv(), text_value, axutil_strlen(text_value));
                }
                <!-- how if this type is a qname :(, simply we are not handling that situation.. -->

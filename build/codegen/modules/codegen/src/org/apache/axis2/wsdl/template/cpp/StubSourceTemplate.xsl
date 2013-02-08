@@ -241,7 +241,7 @@
              <xsl:when test="$isUnwrapParameters">
                                            <xsl:for-each select="input/param/param[@type!='']">
                                                <xsl:if test="position() > 1"><xsl:text>,</xsl:text></xsl:if>
-                                               <xsl:value-of select="@type"/><xsl:text> _</xsl:text><xsl:value-of select="@name"/>
+                                               <xsl:value-of select="@type"/><xsl:text>* _</xsl:text><xsl:value-of select="@name"/>
                                            </xsl:for-each>
              </xsl:when>
              <xsl:otherwise>
@@ -672,7 +672,7 @@
         <xsl:when test="$isUnwrapParameters">
                                           <xsl:for-each select="input/param/param[@type!='']">
                                                <xsl:if test="position() > 1"><xsl:text>,</xsl:text></xsl:if>
-                                              <xsl:value-of select="@type"/><xsl:if test="input/param/param/@ours"><xsl:text>*</xsl:text></xsl:if><xsl:text> _</xsl:text><xsl:value-of select="@name"/>
+                                              <xsl:value-of select="@type"/><xsl:if test="input/param/param/@ours"><xsl:text>*</xsl:text></xsl:if><xsl:text>* _</xsl:text><xsl:value-of select="@name"/>
                                           </xsl:for-each>
         </xsl:when>
         <xsl:otherwise>
@@ -940,7 +940,7 @@
                          <!-- generate for unwrapped mode -->
                          <xsl:when test="$isUnwrapParameters">
                          if(ret_val == NULL) {
-                     callback->receiveResult_<xsl:value-of select="@name"/>((<xsl:value-of select="output/param/param/@type"/>)NULL<xsl:for-each select="output/param[@location='soap_header']">,
+                     callback->receiveResult_<xsl:value-of select="@name"/>((<xsl:value-of select="output/param/param/@type"/>*)NULL<xsl:for-each select="output/param[@location='soap_header']">,
                                                   <xsl:text>_</xsl:text><xsl:value-of select="@name"/>
                                                   </xsl:for-each><!-- xsl:if test="count(fault/*)">, fault </xsl:if -->);
                          }
