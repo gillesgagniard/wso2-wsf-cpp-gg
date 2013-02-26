@@ -95,12 +95,12 @@ namespace wso2wsf
 		* Method to obtain the exception fault reason                                                   
 		* @return Returns the fault reason string
 		*/
-		std::string WSF_CALL getFaultReason();
+		WSF_EXTERN std::string WSF_CALL getFaultReason();
 		/**
 		* Method to get the exception fault code                                                   
 		* @return Returns the fault code
 		*/
-		std::string WSF_CALL getFaultCode();
+		WSF_EXTERN std::string WSF_CALL getFaultCode();
 
     protected:
         /**
