@@ -149,7 +149,9 @@
 
 	#ifdef WIN32
 
-	#ifdef WSDL2CPP_EXPORTS
+	#ifdef WSDL2CPP_STATIC
+	#define WSDL2CPP_EXTERN
+	#elif WSDL2CPP_EXPORTS
 	#define WSDL2CPP_EXTERN __declspec(dllexport)
 	#else
 	#define WSDL2CPP_EXTERN __declspec(dllimport)
