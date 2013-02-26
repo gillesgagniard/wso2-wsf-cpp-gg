@@ -3514,10 +3514,11 @@
                        </xsl:otherwise>
                     </xsl:choose>
                     <!-- if not(@type) then no doubt the parent is NULL --> 
-                    parent_element = axiom_element_create (Environment::getEnv(), NULL, "<xsl:value-of select="$originalName"/>", ns1 , &amp;parent);
+		    parent_element = axiom_element_create (Environment::getEnv(), NULL, "<xsl:value-of select="$originalName"/>", ns1 , &amp;parent);
+
+		    // no need to set the namespace, this is already done at construction time !
                     
-                    <!-- axiom_element_declare_default_namespace(parent_element, Environment::getEnv(), "<xsl:value-of select="$nsuri"/>"); -->
-                    axiom_element_set_namespace(parent_element, Environment::getEnv(), ns1, parent);
+		    if (ns1) axiom_namespace_free(ns1, Environment::getEnv()); // the constructor only increments the refcnt, it doesn't take ownership ...
 
 
             </xsl:if>
@@ -3888,8 +3889,9 @@
                    <xsl:if test="not($nativePropertyType='wso2wsf::OMAttribute*' and @isarray)"><!-- for anyAttribute -->
                    else
                    {
-                      WSF_LOG_ERROR_MSG( Environment::getEnv()->log,WSF_LOG_SI,"Nil value found in non-optional attribute <xsl:value-of select="$propertyName"/>");
-                      return NULL;
+		      WSF_LOG_ERROR_MSG( Environment::getEnv()->log,WSF_LOG_SI,"Nil value found in non-optional attribute <xsl:value-of select="$propertyName"/>");
+		      axiom_node_free_tree(parent, Environment::getEnv());
+                      parent = NULL;
                    }
                    </xsl:if>
                    </xsl:if>
@@ -4290,8 +4292,9 @@
                       <xsl:if test="not($nativePropertyType='wso2wsf::OMAttribute*' and @isarray)"><!-- for anyAttribute -->
                       else
                       {
-                         WSF_LOG_ERROR_MSG( Environment::getEnv()->log,WSF_LOG_SI,"Nil value found in non-optional attribute <xsl:value-of select="$propertyName"/>");
-                         return NULL;
+		         WSF_LOG_ERROR_MSG( Environment::getEnv()->log,WSF_LOG_SI,"Nil value found in non-optional attribute <xsl:value-of select="$propertyName"/>");
+		         axiom_node_free_tree(parent, Environment::getEnv());
+                         parent = NULL;
                       }
                       </xsl:if> 
                       </xsl:if> 
@@ -4357,8 +4360,9 @@
                           </xsl:when>
                           <xsl:otherwise>
                             <!-- just return an error -->
-                            WSF_LOG_ERROR_MSG( Environment::getEnv()->log,WSF_LOG_SI,"Nil value found in non-nillable property <xsl:value-of select="$propertyName"/>");
-                            return NULL;
+			    WSF_LOG_ERROR_MSG( Environment::getEnv()->log,WSF_LOG_SI,"Nil value found in non-nillable property <xsl:value-of select="$propertyName"/>");
+			    axiom_node_free_tree(parent, Environment::getEnv());
+                            parent = NULL;
                           </xsl:otherwise>
                         </xsl:choose>
                       </xsl:if>
