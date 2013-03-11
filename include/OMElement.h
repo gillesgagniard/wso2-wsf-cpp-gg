@@ -139,7 +139,7 @@ namespace wso2wsf
          * destructor that frees resources. Please note that all associated attributes,
          * namespaces, and child nodes will also be removed.
          */
-        virtual WSF_CALL ~OMElement();
+        virtual WSF_EXTERN WSF_CALL ~OMElement();
 
 
         /**
