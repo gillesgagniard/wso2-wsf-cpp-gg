@@ -339,8 +339,6 @@ axis2_http_sender_send(
         is_soap = AXIS2_TRUE;
     }
 
-    url = axutil_url_parse_string(env, str_url);
-
     if(!is_soap)
     {
         if(soap_body)
@@ -375,12 +373,6 @@ axis2_http_sender_send(
         {
             send_via_delete = AXIS2_TRUE;
         }
-    }
-
-    if(!url)
-    {
-        AXIS2_LOG_ERROR(env->log, AXIS2_LOG_SI, "url is null for string %s", str_url);
-        return AXIS2_FAILURE;
     }
 
     /*if(sender->client)
@@ -447,18 +439,44 @@ axis2_http_sender_send(
             add_keepalive_header = AXIS2_TRUE;
         }
     } /* End if sender->keep_alive */
+
+    url = axutil_url_parse_string(env, str_url);
+
+    if(!url)
+    {
+        AXIS2_LOG_ERROR(env->log, AXIS2_LOG_SI, "url is null for string %s", str_url);
+        return AXIS2_FAILURE;
+    }
+
+    /*If the client didn't already exist for this sender (it could be fetched from connection_map) */
     if(!sender->client)
     {
         sender->client = axis2_http_client_create(env, url);
+
+        /* Fail when creating the client*/
+        if(sender->client && sender->keep_alive)
+        {
+            /* While using keepalive the client must be kept for future use*/
+            if(connection_map)
+                axis2_http_sender_connection_map_add(sender, connection_map, env, msg_ctx);
+        }
+        else
+        {
+            AXIS2_LOG_ERROR(env->log, AXIS2_LOG_SI, "sender->client creation failed for url %s", url);
+            return AXIS2_FAILURE;
+        }
     }
-    if(!sender->client)
+    else
+        axis2_http_client_set_url(sender->client,env,url);
+
+    if(!url)
     {
-        AXIS2_LOG_ERROR(env->log, AXIS2_LOG_SI, "sender->client creation failed for url %s", url);
+        AXIS2_LOG_ERROR(env->log, AXIS2_LOG_SI, "url is null for string %s", str_url);
         return AXIS2_FAILURE;
     }
+
     /* configure proxy settings if we have set so
      */
-
     axis2_http_sender_configure_proxy(sender, env, msg_ctx);
 
     if(conf)
@@ -1384,6 +1402,13 @@ axis2_http_sender_send(
             return axis2_http_sender_process_response(sender, env, msg_ctx, response);
         }
     }
+    else
+    {
+        /*In case of a not found error, process the response, but end with an ERROR
+          this way the resources allocated by the client will be freed*/
+        if(AXIS2_HTTP_RESPONSE_NOT_FOUND_CODE_VAL == status_code)
+            axis2_http_sender_process_response(sender, env, msg_ctx, response);
+    }
 
     AXIS2_HANDLE_ERROR(env, AXIS2_ERROR_HTTP_CLIENT_TRANSPORT_ERROR, AXIS2_FAILURE);
     AXIS2_LOG_TRACE(env->log, AXIS2_LOG_SI, "Exit:axis2_http_sender_send");
@@ -1609,6 +1634,7 @@ axis2_http_sender_process_response(
     axis2_http_simple_response_t * response)
 {
     axutil_stream_t *in_stream = NULL;
+    axutil_stream_t *old_in_stream = NULL;
     axutil_property_t *property = NULL;
 
     AXIS2_LOG_TRACE(env->log, AXIS2_LOG_SI, "Entry:axis2_http_sender_process_response");
@@ -1625,18 +1651,37 @@ axis2_http_sender_process_response(
     axis2_http_sender_get_header_info(sender, env, msg_ctx, response);
     axis2_msg_ctx_set_http_output_headers(msg_ctx, env, axis2_http_simple_response_extract_headers(
         response, env));
-    property = axutil_property_create(env);
-    axutil_property_set_scope(property, env, AXIS2_SCOPE_REQUEST);
+
+    /**
+     * Possible memory corruption :
+     *
+     * in_stream is put in a property (which thus owns it and will free it upon destruction),
+     * and axis2_msg_ctx_set_property deletes the previous property.
+     * This means in_stream will be freed with the *next* set_property call.
+     *
+     * However, it can happen (at least with keepalive/ssl) that axis2_http_simple_response_get_body
+     * returns the same in_stream several times !
+     * 
+     * Thus, a new property must only be created if in_stream really changes, otherwise in_stream is freed
+     * and then used again !
+     */
+    old_in_stream = (axutil_stream_t*)axis2_msg_ctx_get_property_value(msg_ctx, env, AXIS2_TRANSPORT_IN);
+    if (in_stream != old_in_stream)
+    {
+	    property = axutil_property_create(env);
+	    axutil_property_set_scope(property, env, AXIS2_SCOPE_REQUEST);
 #ifdef AXIS2_SSL_ENABLED
-	if(in_stream->stream_type == AXIS2_STREAM_SOCKET)
-		axutil_property_set_free_func(property, env, axutil_stream_free_void_arg);
-	else /** SSL Streams are AXIS2_STREAM_BASIC */
-		axutil_property_set_free_func(property, env, axis2_ssl_stream_free);
+		if(in_stream->stream_type == AXIS2_STREAM_SOCKET)
+			axutil_property_set_free_func(property, env, axutil_stream_free_void_arg);
+		else /** SSL Streams are AXIS2_STREAM_BASIC */
+			axutil_property_set_free_func(property, env, axis2_ssl_stream_free);
 #else
-   axutil_property_set_free_func(property, env, axutil_stream_free_void_arg);
+	   axutil_property_set_free_func(property, env, axutil_stream_free_void_arg);
 #endif
-    axutil_property_set_value(property, env, in_stream);
-    axis2_msg_ctx_set_property(msg_ctx, env, AXIS2_TRANSPORT_IN, property);
+	    axutil_property_set_value(property, env, in_stream);
+	    axis2_msg_ctx_set_property(msg_ctx, env, AXIS2_TRANSPORT_IN, property);
+    }
+
     AXIS2_LOG_TRACE(env->log, AXIS2_LOG_SI, "Exit:axis2_http_sender_process_response");
     return AXIS2_SUCCESS;
 }
@@ -3729,7 +3774,15 @@ axis2_http_sender_connection_map_add(
                 axis2_char_t *server = axutil_url_get_server(url, env);
                 if(server)
                 {
-                    axutil_hash_set(connection_map, axutil_strdup(env, server), 
+		    if (!axutil_hash_get(connection_map, server, AXIS2_HASH_KEY_STRING))
+		    {
+			    /**
+			     * The key doesn't currently exist in the hashmap, so we make a copy of the key
+			     * because url is transient and will be deleted before connection_map ...
+			     */
+			    server = axutil_strdup(env, server);
+		    }
+                    axutil_hash_set(connection_map, server,
                         AXIS2_HASH_KEY_STRING, http_client);
                     sender->keep_alive = AXIS2_TRUE;
                 }

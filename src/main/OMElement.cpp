@@ -155,7 +155,6 @@ OMElement::~OMElement()
     for(vector<OMAttribute *>::iterator ite = _added_attributes.begin(); 
         ite != _added_attributes.end(); ++ite)
     {
-       (*ite)->setAxiomAttribute(NULL);
         delete *ite;
     }
     _added_attributes.clear();
