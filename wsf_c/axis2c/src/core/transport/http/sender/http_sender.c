@@ -1402,13 +1402,6 @@ axis2_http_sender_send(
             return axis2_http_sender_process_response(sender, env, msg_ctx, response);
         }
     }
-    else
-    {
-        /*In case of a not found error, process the response, but end with an ERROR
-          this way the resources allocated by the client will be freed*/
-        if(AXIS2_HTTP_RESPONSE_NOT_FOUND_CODE_VAL == status_code)
-            axis2_http_sender_process_response(sender, env, msg_ctx, response);
-    }
 
     AXIS2_HANDLE_ERROR(env, AXIS2_ERROR_HTTP_CLIENT_TRANSPORT_ERROR, AXIS2_FAILURE);
     AXIS2_LOG_TRACE(env->log, AXIS2_LOG_SI, "Exit:axis2_http_sender_send");
@@ -1678,6 +1671,9 @@ axis2_http_sender_process_response(
 #else
 	   axutil_property_set_free_func(property, env, axutil_stream_free_void_arg);
 #endif
+	    /**After setting the stream to the msg_ctx the client is not the owner of the stream anymore
+	      the stream will be released by the msg_ctx*/
+	    axis2_http_client_set_owns_stream(sender->client,AXIS2_FALSE,env);
 	    axutil_property_set_value(property, env, in_stream);
 	    axis2_msg_ctx_set_property(msg_ctx, env, AXIS2_TRANSPORT_IN, property);
     }

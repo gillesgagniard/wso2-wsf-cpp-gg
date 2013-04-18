@@ -39,6 +39,9 @@ struct axis2_http_client
 {
     int sockfd;
     axutil_stream_t *data_stream;
+
+    /*Ownership of the stream, if true the client must free the memory*/
+    axis2_bool_t owns_stream;
     axutil_url_t *url;
     axis2_http_simple_response_t *response;
     axis2_bool_t request_sent;
@@ -78,6 +81,7 @@ axis2_http_client_create(
 
     http_client->url = url;
     http_client->data_stream = NULL;
+    http_client->owns_stream = AXIS2_FALSE;
     http_client->sockfd = -1;
     http_client->response = NULL;
     http_client->request_sent = AXIS2_FALSE;
@@ -124,15 +128,24 @@ axis2_http_client_free(
     if(-1 != http_client->sockfd)
     {
 #ifdef AXIS2_SSL_ENABLED
-		if(http_client->data_stream->stream_type == AXIS2_STREAM_SOCKET)
-		{
-			axutil_network_handler_close_socket(env, http_client->sockfd);
-			/** ssl streams of type AXIS2_STREAM_BASIC  will be handled by SSL_shutdown(); */
-		}
+        if(http_client->data_stream)
+        {
+            if(http_client->data_stream->stream_type == AXIS2_STREAM_SOCKET)
+            {
+                axutil_network_handler_close_socket(env, http_client->sockfd);
+                /** ssl streams of type AXIS2_STREAM_BASIC  will be handled by SSL_shutdown(); */
+            }
+        }
 #else
 		axutil_network_handler_close_socket(env, http_client->sockfd);
 #endif
         http_client->sockfd = -1;
+
+    }
+
+    if(http_client->data_stream && http_client->owns_stream)
+    {
+        axutil_stream_free(http_client->data_stream,env);
     }
 
     if(http_client->req_body)
@@ -281,9 +294,12 @@ axis2_http_client_send(
             }
         }
 		if(!client->data_stream)
+		{
 			client->data_stream =
 			axutil_stream_create_ssl(env, client->sockfd, axis2_http_client_get_server_cert(client,
                 env), axis2_http_client_get_key_file(client, env), ssl_pp);
+			client->owns_stream = AXIS2_TRUE;
+		}
 #else
         axutil_network_handler_close_socket(env, client->sockfd);
         client->sockfd = -1;
@@ -297,7 +313,11 @@ axis2_http_client_send(
     else
     {
         if(!client->data_stream)
+        {
             client->data_stream = axutil_stream_create_socket(env, client->sockfd);
+            client->owns_stream = AXIS2_TRUE;
+        }
+
     }
 
     if(!client->data_stream)
@@ -785,6 +805,15 @@ axis2_http_client_get_proxy(
 {
     AXIS2_PARAM_CHECK(env->error, client, NULL);
     return client->proxy_host_port;
+}
+
+AXIS2_EXTERN void AXIS2_CALL
+axis2_http_client_set_owns_stream(
+    axis2_http_client_t * client,
+    axis2_bool_t owns,
+    const axutil_env_t * env)
+{
+    client->owns_stream = owns;
 }
 
 AXIS2_EXTERN axis2_status_t AXIS2_CALL

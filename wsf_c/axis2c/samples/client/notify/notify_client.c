@@ -140,6 +140,7 @@ build_om_programatically(
     notify_om_ele =
         axiom_element_create(env, NULL, "notify", ns1, &notify_om_node);
     axiom_element_set_text(notify_om_ele, env, "notify5", notify_om_node);
+    axiom_namespace_free(ns1, env);
 
     buffer = axiom_node_to_string(notify_om_node, env);
     if (buffer)

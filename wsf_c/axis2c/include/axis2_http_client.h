@@ -145,6 +145,18 @@ extern "C"
         const axis2_http_client_t * client,
         const axutil_env_t * env);
 
+    /**
+     * Set ownership of the data stream, if true the client must free the stream
+     * @param client pointer to client
+     * @param owns new value of ownership
+     * @param env pointer to environment struct
+     */
+    AXIS2_EXTERN void AXIS2_CALL
+    axis2_http_client_set_owns_stream(
+        axis2_http_client_t * client,
+        axis2_bool_t owns,
+        const axutil_env_t * env);
+
     AXIS2_EXTERN axis2_status_t AXIS2_CALL
 
     axis2_http_client_connect_ssl_host(

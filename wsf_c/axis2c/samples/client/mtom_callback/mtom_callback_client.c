@@ -202,6 +202,8 @@ build_om_programatically(
 
     axiom_text_set_optimize(data_text, env, AXIS2_TRUE);
     om_str = axiom_node_to_string(mtom_om_node, env);
+    axiom_namespace_free(ns1, env);
+
     if (om_str)
     {
         printf("%s", om_str);
