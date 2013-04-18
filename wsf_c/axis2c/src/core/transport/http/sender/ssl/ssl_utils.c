@@ -42,6 +42,7 @@ axis2_ssl_utils_initialize_ctx(
 {
     SSL_CTX *ctx = NULL;
     axis2_char_t *ca_file = server_cert;
+    /* fix for win32 build : the expected signature is actually const ! */
     const SSL_METHOD *meth;
     if (!ca_file)
     {
