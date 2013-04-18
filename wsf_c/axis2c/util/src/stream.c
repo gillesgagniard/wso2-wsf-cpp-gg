@@ -303,6 +303,7 @@ axutil_stream_write_basic(
 
     new_len = (int)(stream->len + count);
     /* We are sure that the difference lies within the int range */
+    /* memory corruption : if new_len == stream->max_len, we need to realloc to account for the null byte */
     if(new_len >= stream->max_len)
     {
         axis2_char_t *tmp = (axis2_char_t *)AXIS2_MALLOC(env->allocator, sizeof(axis2_char_t)
