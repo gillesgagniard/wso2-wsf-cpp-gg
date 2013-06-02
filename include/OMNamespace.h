@@ -121,7 +121,7 @@ namespace wso2wsf
     /**
      * destructor that frees resources.
      */
-    virtual WSF_CALL ~OMNamespace();
+    virtual WSF_EXTERN WSF_CALL ~OMNamespace();
 
     /**
      * Compares two namespaces.

@@ -107,7 +107,7 @@ typedef struct wsf_rampart_callback
 #define WSF_PASSWORD_CALLBACK_INIT(class_name) \
 extern "C" \
 { \
-    WSF_EXTERN int \
+    AXIS2_EXPORT int \
     axis2_remove_instance( \
         wsf_rampart_callback_t *inst, \
         const axutil_env_t *env) \
@@ -129,7 +129,7 @@ extern "C" \
         return axis2_remove_instance((wsf_rampart_callback_t *)inst, env);\
     } \
 \
-    WSF_EXTERN int \
+    AXIS2_EXPORT int \
     axis2_get_instance( \
         wsf_rampart_callback_t **inst, \
         const axutil_env_t *env) \

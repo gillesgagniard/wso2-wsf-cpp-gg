@@ -57,7 +57,7 @@ namespace wso2wsf
          * Method to get the reference to the neethi_policy struct.
          * @return reference to the neethi_policy struct.
          */
-        neethi_policy_t * WSF_CALL getNeethiPolicy();
+        WSF_EXTERN neethi_policy_t * WSF_CALL getNeethiPolicy();
 
         /**
          * Method to set the reference to the neethi_policy struct.
@@ -80,7 +80,7 @@ namespace wso2wsf
         /**
          * Destructor for the NeethiPolicy class.
          */
-        virtual WSF_CALL ~NeethiPolicy();
+        virtual WSF_EXTERN WSF_CALL ~NeethiPolicy();
 
         /**
          * Sets policy name.
