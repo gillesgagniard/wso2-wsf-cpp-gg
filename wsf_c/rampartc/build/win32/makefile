@@ -57,20 +57,10 @@ CFLAGS = /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "AXIS2_DECLARE_EXPORT"   \
 ################### linker options
 
 LD = @link.exe
-LDFLAGS = /nologo /LIBPATH:$(AXIS2_LIBS) /LIBPATH:$(OPENSSL_BIN_DIR)\lib\VC \
+LDFLAGS = /nologo /LIBPATH:$(AXIS2_LIBS) /LIBPATH:$(OPENSSL_BIN_DIR)\lib \
 	  /LIBPATH:$(AXIS2_BIN_DIR)\lib
 
-SSL_LIB_FLAG = "MD"
-!if "$(CRUNTIME)" == "/MT"
-SSL_LIB_FLAG = "MT"
-!endif
-
-#debug symbols
-!if "$(DEBUG)" == "1"
-LIBS = $(LIBS) libeay32$(SSL_LIB_FLAG)d.lib ssleay32$(SSL_LIB_FLAG)d.lib
-!else
-LIBS = $(LIBS) libeay32$(SSL_LIB_FLAG).lib ssleay32$(SSL_LIB_FLAG).lib
-!endif
+LIBS = $(LIBS) libeay32.lib ssleay32.lib
 
 ####################
 MT=mt.exe

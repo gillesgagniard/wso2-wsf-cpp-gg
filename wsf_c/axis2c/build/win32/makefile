@@ -193,8 +193,8 @@ LDFLAGS = /NOLOGO /WX /LIBPATH:$(AXIS2_LIBS) /LIBPATH:$(LIBXML2_BIN_DIR)\lib \
 LIBS =  Rpcrt4.lib Ws2_32.lib
 
 !if "$(ENABLE_SSL)" == "1"
-LDFLAGS = $(LDFLAGS) /LIBPATH:$(OPENSSL_BIN_DIR)\lib\VC
-LIBS = $(LIBS) libeay32MD.lib ssleay32MD.lib
+LDFLAGS = $(LDFLAGS) /LIBPATH:$(OPENSSL_BIN_DIR)\lib
+LIBS = $(LIBS) libeay32.lib ssleay32.lib
 !endif
 
 !if "$(ENABLE_LIBCURL)" == "1"
@@ -209,8 +209,8 @@ APACHE_LIBS = apr-1.lib xml.lib libhttpd.lib libapr-1.lib libaprutil-1.lib
 !endif
 
 !if "$(ENABLE_NTLM_WITH_HEIMDAL)" == "1"
-LDFLAGS = $(LDFLAGS) /LIBPATH:$(HEIMDAL_BIN_DIR)\lib /LIBPATH:$(OPENSSL_BIN_DIR)\lib\VC
-LIBS = $(LIBS) libheimntlm.lib libeay32MD.lib ssleay32MD.lib 
+LDFLAGS = $(LDFLAGS) /LIBPATH:$(HEIMDAL_BIN_DIR)\lib /LIBPATH:$(OPENSSL_BIN_DIR)\lib
+LIBS = $(LIBS) libheimntlm.lib libeay32.lib ssleay32.lib 
 !endif
 
 !if "$(ENABLE_NTLM_WITH_LIBNTLM)" == "1"
