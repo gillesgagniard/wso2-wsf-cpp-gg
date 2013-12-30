@@ -18,6 +18,7 @@
 #include <Stub.h>
 #include <Options.h>
 #include <ServiceClient.h>
+#include <WSFault.h>
 using namespace std;
 using namespace wso2wsf;
 
@@ -27,12 +28,22 @@ void Stub::init(std::string& client_home, std::string& endpointUri)
 {
 	serviceClient = new ServiceClient(client_home, endpointUri);
 	clientOptions = serviceClient->getOptions();
+
+	if (!serviceClient->isValidClient())
+	{
+		throw WSFault("invalid service client");
+	}
 }
 
 void Stub::init(std::string& endpointUri)
 {
 	serviceClient = new ServiceClient(endpointUri);
 	clientOptions = serviceClient->getOptions();
+
+	if (!serviceClient->isValidClient())
+	{
+		throw WSFault("invalid service client");
+	}
 }
 
 Options* Stub::getOptions()
