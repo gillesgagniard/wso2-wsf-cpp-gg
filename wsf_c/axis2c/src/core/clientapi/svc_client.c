@@ -1188,7 +1188,7 @@ axis2_svc_client_free(
 
     if(svc_client->options)
     {
-        axis2_options_free(svc_client->options, env);    
+        axis2_options_free(svc_client->options, env);
     }
 
     if(svc_client->listener_manager)

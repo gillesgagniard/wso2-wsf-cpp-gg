@@ -1402,6 +1402,13 @@ axis2_http_sender_send(
             return axis2_http_sender_process_response(sender, env, msg_ctx, response);
         }
     }
+    else
+    {
+        /*In case of a not found error, process the response, but end with an ERROR
+          this way the resources allocated by the client will be freed*/
+        if(AXIS2_HTTP_RESPONSE_NOT_FOUND_CODE_VAL == status_code)
+            axis2_http_sender_process_response(sender, env, msg_ctx, response);
+    }
 
     AXIS2_HANDLE_ERROR(env, AXIS2_ERROR_HTTP_CLIENT_TRANSPORT_ERROR, AXIS2_FAILURE);
     AXIS2_LOG_TRACE(env->log, AXIS2_LOG_SI, "Exit:axis2_http_sender_send");
