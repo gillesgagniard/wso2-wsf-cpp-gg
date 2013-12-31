@@ -77,7 +77,12 @@ guththila_reader_create_for_memory(
     }
 
     reader->type = GUTHTHILA_MEMORY_READER;
+#ifdef _WIN32
+    /* VC is really a fine piece of stinking shit and always manage to deliver ! */
+    reader->buff = _strdup(buffer);
+#else
     reader->buff = strdup(buffer);
+#endif
     reader->buff_size = size;
     reader->fp = NULL;
     reader->input_read_callback = NULL;

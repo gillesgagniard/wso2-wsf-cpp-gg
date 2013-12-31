@@ -12,6 +12,9 @@
  *  limitations under the License.
  */
 
+#ifdef AXIS2_JSON_ENABLED
+/* The crappy nmake makefiles just try to build *.c, so we need to test for this macro ... */
+
 #include <axiom_node.h>
 #include <axiom_element.h>
 #include <axiom_attribute.h>
@@ -175,4 +178,6 @@ axis2_json_writer_get_json_string(
 
     return result;
 }
+
+#endif
 
