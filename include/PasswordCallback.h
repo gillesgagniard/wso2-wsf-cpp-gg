@@ -75,6 +75,10 @@ namespace wso2wsf
          */
         static WSF_EXTERN axis2_char_t* WSF_CALL callbackPKCS12Password(
             rampart_callback_t * callback, const axutil_env_t* env, const axis2_char_t *username, void *param);
+
+    protected:
+	static std::map<std::string, std::string> _passwords; // mapping username/password
+	static std::map<std::string, std::string> _pkcs12passwords;
     };
     /** @} */
 }
