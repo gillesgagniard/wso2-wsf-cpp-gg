@@ -103,32 +103,30 @@ typedef struct wsf_rampart_callback
  * include this macro in the code and the appropriate class name should be passed as the argument
  * for proper deployment and functioning of the service associated with this password callback.
  *
+ * A symbolic name (ie. a string usable in a function name) must also be provided since unique symbols for
+ * the library need to be generated.
+ *
+ * Implementation note : old implementation used to call "axis2_remove_instance" from a function defined there
+ * as a cleanup callback. This cannot work because other modules already implement a symbol called "axis2_remove_instance",
+ * so which one gets actually called ?
  */
-#define WSF_PASSWORD_CALLBACK_INIT(class_name) \
+#define WSF_PASSWORD_CALLBACK_INIT(class_name, symbolic_name) \
 extern "C" \
 { \
     AXIS2_EXPORT int \
-    axis2_remove_instance( \
-        wsf_rampart_callback_t *inst, \
-        const axutil_env_t *env) \
-    { \
-        if (inst) \
-        { \
-            delete inst->callback; \
-            AXIS2_FREE(env->allocator, inst->ops); \
-            AXIS2_FREE(env->allocator, inst); \
-        } \
-        return AXIS2_SUCCESS; \
-    } \
-\
-    axis2_status_t WSF_CALL \
-    wsf_rampart_callback_free( \
+    axis2_remove_instance_##symbolic_name( \
         rampart_callback_t *inst, \
         const axutil_env_t *env) \
     { \
-        return axis2_remove_instance((wsf_rampart_callback_t *)inst, env);\
+	wsf_rampart_callback_t* wsf_inst = (wsf_rampart_callback_t*)inst; \
+        if (wsf_inst) \
+        { \
+            delete wsf_inst->callback; \
+            AXIS2_FREE(env->allocator, wsf_inst->ops); \
+            AXIS2_FREE(env->allocator, wsf_inst); \
+        } \
+        return AXIS2_SUCCESS; \
     } \
-\
     AXIS2_EXPORT int \
     axis2_get_instance( \
         wsf_rampart_callback_t **inst, \
@@ -141,7 +139,7 @@ extern "C" \
         rcb->ops = (rampart_callback_ops_t *)AXIS2_MALLOC(env->allocator, sizeof(rampart_callback_ops_t)); \
         rcb->ops->callback_password = wso2wsf::PasswordCallback::callbackPassword; \
         rcb->ops->callback_pkcs12_password = wso2wsf::PasswordCallback::callbackPKCS12Password; \
-        rcb->ops->free = wsf_rampart_callback_free; \
+        rcb->ops->free = axis2_remove_instance_##symbolic_name; \
     \
         rcb->callback = new class_name; \
     \

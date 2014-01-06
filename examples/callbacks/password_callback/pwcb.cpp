@@ -27,7 +27,7 @@ public:
     string WSF_CALL getPKCS12Password(string& username);
 };
 
-WSF_PASSWORD_CALLBACK_INIT(PWCB);
+WSF_PASSWORD_CALLBACK_INIT(PWCB, PWCB);
 
 PWCB::PWCB()
 {
