@@ -310,7 +310,7 @@ axiom_namespace_create_str(
         return NULL;
     }
 
-    om_namespace->ref = 0;
+    om_namespace->ref = 0; /* why not 1 here ? this is completely inconsistent with create ... */
     om_namespace->prefix = NULL;
     om_namespace->uri = NULL;
     om_namespace->key = NULL;

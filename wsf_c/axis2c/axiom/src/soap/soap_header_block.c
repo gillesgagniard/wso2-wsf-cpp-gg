@@ -343,6 +343,7 @@ axiom_soap_header_block_set_attribute(
         axiom_namespace_free(om_ns, env);
         return AXIS2_FAILURE;
     }
+    axiom_attribute_set_own_ns(om_attr, 1); /* namespace is owned by the attribute and must be freed */
 
     return axiom_element_add_attribute(om_ele, env, om_attr, header_block->om_ele_node);
 }

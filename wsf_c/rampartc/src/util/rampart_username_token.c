@@ -103,7 +103,6 @@ rampart_username_token_build(
     }
     
     /* we have valid username and password. Can start to build UsernameToken */
-    axiom_namespace_increment_ref(sec_ns_obj, env);
     ut_ele = axiom_element_create(
         env, sec_node, RAMPART_SECURITY_USERNAMETOKEN, sec_ns_obj, &ut_node);
     if(!ut_ele)
@@ -113,10 +112,9 @@ rampart_username_token_build(
     }
 
     wsu_ns_obj = axiom_namespace_create(env, RAMPART_WSU_XMLNS, RAMPART_WSU);
-    axiom_element_declare_namespace(ut_ele, env, ut_node, wsu_ns_obj);
+    axiom_element_declare_namespace(ut_ele, env, ut_node, wsu_ns_obj); /* increment ref of wsu_ns_obj, so we can safely free it in this function */
     
     /* Build Username element */
-    axiom_namespace_increment_ref(sec_ns_obj, env);
     un_ele = axiom_element_create(
         env, ut_node, RAMPART_SECURITY_USERNAMETOKEN_USERNAME, sec_ns_obj, &un_node);
     if(un_ele)
@@ -126,6 +124,7 @@ rampart_username_token_build(
     else
     {
         AXIS2_LOG_ERROR(env->log, AXIS2_LOG_SI, "[rampart]Username element creation failed.");
+        axiom_namespace_free(wsu_ns_obj, env);
         return AXIS2_FAILURE;
     }
 
@@ -153,7 +152,6 @@ rampart_username_token_build(
         digest_val = rampart_crypto_sha1(env, nonce_val, created_val, password);
 
         /* create password element */
-        axiom_namespace_increment_ref(sec_ns_obj, env);
         pw_ele = axiom_element_create(
             env, ut_node, RAMPART_SECURITY_USERNAMETOKEN_PASSWORD, sec_ns_obj, &pw_node);
         if(pw_ele)
@@ -166,11 +164,11 @@ rampart_username_token_build(
         else
         {
             AXIS2_LOG_ERROR(env->log, AXIS2_LOG_SI, "[rampart]Password element creation failed.");
+            axiom_namespace_free(wsu_ns_obj, env);
             return AXIS2_FAILURE;
         }
 
         /* create Nonce element */
-		axiom_namespace_increment_ref(sec_ns_obj, env);
         nonce_ele = axiom_element_create(
             env, ut_node, RAMPART_SECURITY_USERNAMETOKEN_NONCE, sec_ns_obj, &nonce_node);
         if (nonce_ele)
@@ -180,12 +178,14 @@ rampart_username_token_build(
         else
         {
             AXIS2_LOG_ERROR(env->log, AXIS2_LOG_SI, "[rampart]Nonce element creation failed.");
+            axiom_namespace_free(wsu_ns_obj, env);
             return AXIS2_FAILURE;
         }
 
         /* create Created element */
         created_ele = axiom_element_create(
-            env, ut_node, RAMPART_SECURITY_USERNAMETOKEN_CREATED, wsu_ns_obj, &created_node);
+            env, ut_node, RAMPART_SECURITY_USERNAMETOKEN_CREATED, wsu_ns_obj, &created_node); /* internally uses declare_namespace, so it's safe to free */
+        axiom_namespace_free(wsu_ns_obj, env); /* no need for it anymore */
         if (created_ele)
         {
             axiom_element_set_text(created_ele, env, created_val, created_node);
@@ -215,7 +215,6 @@ rampart_username_token_build(
     else 
     {
         /* default is passwordText */
-		axiom_namespace_increment_ref(sec_ns_obj, env);
         pw_ele = axiom_element_create(
             env, ut_node, RAMPART_SECURITY_USERNAMETOKEN_PASSWORD, sec_ns_obj, &pw_node);
         if (pw_ele)

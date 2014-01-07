@@ -254,6 +254,19 @@ extern "C"
         const axutil_env_t * env,
         axutil_string_t * value);
 
+    /**
+      * Set namespace as owned (ie. will be freed)
+      * @param  om_attribute pointer to attribute struct
+      * @param  value whether the namespace of the attribute is owned
+      */
+
+    AXIS2_EXTERN void AXIS2_CALL
+    axiom_attribute_set_own_ns(
+        struct axiom_attribute *om_attribute,
+        axis2_bool_t value);
+
+
+
     /** @} */
 
 #ifdef __cplusplus

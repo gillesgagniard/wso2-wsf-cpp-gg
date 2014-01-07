@@ -30,6 +30,7 @@ struct axiom_attribute
 
     /** attribute namespace */
     axiom_namespace_t *ns;
+    axis2_bool_t own_ns;
 
     /** store qname here */
     axutil_qname_t *qname;
@@ -81,6 +82,7 @@ axiom_attribute_create(
         }
     }
     attribute->ns = ns;
+    attribute->own_ns = 0;
 
     attribute->ref = 0;
 
@@ -110,6 +112,10 @@ axiom_attribute_free(
     if(attribute->qname)
     {
         axutil_qname_free(attribute->qname, env);
+    }
+    if(attribute->ns && attribute->own_ns)
+    {
+	axiom_namespace_free(attribute->ns, env);
     }
 
     AXIS2_FREE(env->allocator, attribute);
@@ -364,6 +370,7 @@ axiom_attribute_create_str(
         }
     }
     attribute->ns = ns;
+    attribute->own_ns = 0;
 
     attribute->ref = 0;
 
@@ -428,4 +435,12 @@ axiom_attribute_set_value_str(
         return AXIS2_FAILURE;
     }
     return AXIS2_SUCCESS;
+}
+
+AXIS2_EXTERN void AXIS2_CALL
+axiom_attribute_set_own_ns(
+    axiom_attribute_t * attribute,
+    axis2_bool_t value)
+{
+    attribute->own_ns = value;
 }

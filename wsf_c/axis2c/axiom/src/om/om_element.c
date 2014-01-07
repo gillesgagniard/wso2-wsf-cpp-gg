@@ -1627,7 +1627,7 @@ axiom_element_declare_namespace_assume_param_ownership(
         key[0] = '\0';
         axutil_hash_set(om_element->namespaces, key, AXIS2_HASH_KEY_STRING, ns);
     }
-    axiom_namespace_increment_ref(ns, env);
+    /* why increment ref if we assume ownership ? */
     return AXIS2_SUCCESS;
 }
 

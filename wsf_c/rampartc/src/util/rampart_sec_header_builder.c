@@ -445,10 +445,8 @@ rampart_shb_build_message(
 
     sec_ns_obj =  axiom_namespace_create(env, RAMPART_WSSE_XMLNS,
                                          RAMPART_WSSE);
-	axiom_namespace_increment_ref(sec_ns_obj, env);
-
     sec_header_block = axiom_soap_header_add_header_block(soap_header,
-                       env, RAMPART_SECURITY, sec_ns_obj);
+                       env, RAMPART_SECURITY, sec_ns_obj); /* sec_ns_obj is cloned there */
     server_side = axis2_msg_ctx_get_server_side(msg_ctx, env);
     if(!sec_header_block)
     {
@@ -497,7 +495,7 @@ rampart_shb_build_message(
             /*Now we are passing rampart_context here so inside this method
             relevant parameters are extracted. */
 
-            AXIS2_LOG_DEBUG(env->log, AXIS2_LOG_SI, "[rampart][shb] Building UsernmaeToken");
+            AXIS2_LOG_DEBUG(env->log, AXIS2_LOG_SI, "[rampart][shb] Building UsernameToken");
             status = rampart_username_token_build(
                         env,
                         rampart_context,
@@ -506,29 +504,13 @@ rampart_shb_build_message(
             if (status == AXIS2_FAILURE)
             {
                 AXIS2_LOG_ERROR(env->log, AXIS2_LOG_SI,
-                                "[rampart][shb] UsernmaeToken build failed. ERROR");
+                                "[rampart][shb] UsernameToken build failed. ERROR");
 				axiom_namespace_free(sec_ns_obj, env);
                 return AXIS2_FAILURE;
             }
         }
     }
 
-    /**********************
-     * Sample node to be added to the security header. This is for testing
-     * TODO: Remove later*/
-
-    if(0){
-        axiom_node_t *my_token = NULL;
-        axutil_array_list_t *token_list = NULL;
-        axis2_char_t *buf = "<MyToken/>";
-
-        token_list = axutil_array_list_create(env, 1);
-        my_token = oxs_axiom_deserialize_node(env, buf);
-        axutil_array_list_add(token_list, env, my_token);
-        rampart_context_set_custom_tokens(rampart_context,env, token_list);
-    }
- 
-    /***********************/
     /*Custom tokens are included if its available in the rampart context*/
     if(!axis2_msg_ctx_get_server_side(msg_ctx,env))
     {
