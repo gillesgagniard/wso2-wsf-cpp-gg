@@ -12,6 +12,8 @@
  *  limitations under the License.
  */
 
+#ifdef AXIS2_JSON_ENABLED
+
 #include <axutil_stream.h>
 #include <axiom_node.h>
 #include <axiom_element.h>
@@ -330,3 +332,6 @@ axis2_json_reader_get_root_node(
     (void)env;
     return reader->axiom_node;
 }
+
+#endif
+

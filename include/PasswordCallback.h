@@ -117,7 +117,7 @@ typedef struct wsf_rampart_callback
 #define WSF_PASSWORD_CALLBACK_INIT(class_name, symbolic_name) \
 extern "C" \
 { \
-    AXIS2_EXPORT int \
+    axis2_status_t WSF_CALL \
     axis2_remove_instance_##symbolic_name( \
         rampart_callback_t *inst, \
         const axutil_env_t *env) \
@@ -130,6 +130,13 @@ extern "C" \
             AXIS2_FREE(env->allocator, wsf_inst); \
         } \
         return AXIS2_SUCCESS; \
+    } \
+    AXIS2_EXPORT int \
+    axis2_remove_instance( \
+        wsf_rampart_callback_t *inst, \
+        const axutil_env_t *env) \
+    { \
+        return axis2_remove_instance_##symbolic_name((rampart_callback_t*)inst, env); \
     } \
     AXIS2_EXPORT int \
     axis2_get_instance( \
