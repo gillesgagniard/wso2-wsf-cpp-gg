@@ -600,10 +600,21 @@ axis2_http_client_receive_header(
     do
     {
         memset(str_status_line, 0, AXIS2_HTTP_STATUS_LINE_LENGTH);
+        unsigned int str_status_line_length = 0;
         while((read = axutil_stream_read(client->data_stream, env, tmp_buf, 1)) > 0)
         {
             /* "read" variable is number of characters read by stream */
             tmp_buf[read] = '\0';
+            /*
+             * buffer overflow prevention : we need to ckeck if we have not reached the maximum status line size !
+             * a broken / evil server may try to send us more than 512 bytes in the status line ...
+             */
+            str_status_line_length += read;
+            if (str_status_line_length + 1 > AXIS2_HTTP_STATUS_LINE_LENGTH)
+            {
+              AXIS2_LOG_ERROR(env->log, AXIS2_LOG_SI, "reached maximum header size %i", AXIS2_HTTP_STATUS_LINE_LENGTH);
+              break;
+            }
             strcat(str_status_line, tmp_buf);
             if(0 != strstr(str_status_line, AXIS2_HTTP_CRLF))
             {
@@ -616,13 +627,13 @@ axis2_http_client_receive_header(
         {
             AXIS2_LOG_DEBUG(env->log, AXIS2_LOG_SI, "http client , response timed out");
             AXIS2_HANDLE_ERROR(env, AXIS2_ERROR_RESPONSE_TIMED_OUT, AXIS2_FAILURE);
-            return -1;
+            return -2; /* specific status code for time out */
         }
         else if(read == 0)
         {
             AXIS2_HANDLE_ERROR(env, AXIS2_ERROR_RESPONSE_SERVER_SHUTDOWN, AXIS2_FAILURE);
             AXIS2_LOG_ERROR(env->log, AXIS2_LOG_SI, "Response error, Server Shutdown");
-            return 0;
+            return -1; /* this is a real error ! */
         }
 
         status_line = axis2_http_status_line_create(env, str_status_line);
@@ -744,6 +755,7 @@ axis2_http_client_set_timeout(
 {
     AXIS2_PARAM_CHECK(env->error, client, AXIS2_FAILURE);
     client->timeout = timeout_ms;
+    AXIS2_LOG_DEBUG(env->log, AXIS2_LOG_SI, "http client set timeout %i\n", timeout_ms);
     return AXIS2_SUCCESS;
 }
 
