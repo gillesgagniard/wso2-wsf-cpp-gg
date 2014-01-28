@@ -599,8 +599,8 @@ axis2_http_client_receive_header(
     /* read the status line */
     do
     {
-        memset(str_status_line, 0, AXIS2_HTTP_STATUS_LINE_LENGTH);
         unsigned int str_status_line_length = 0;
+        memset(str_status_line, 0, AXIS2_HTTP_STATUS_LINE_LENGTH);
         while((read = axutil_stream_read(client->data_stream, env, tmp_buf, 1)) > 0)
         {
             /* "read" variable is number of characters read by stream */
