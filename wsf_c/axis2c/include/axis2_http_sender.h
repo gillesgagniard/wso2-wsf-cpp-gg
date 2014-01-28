@@ -192,6 +192,12 @@ extern "C"
         axis2_http_sender_t * sender,
         const axutil_env_t * env);
 
+    AXIS2_EXTERN void AXIS2_CALL
+    axis2_http_sender_set_so_timeout(
+        axis2_http_sender_t * sender,
+        const axutil_env_t * env,
+        unsigned int so_timeout);
+
     /**
      * @param env pointer to environment struct
      */

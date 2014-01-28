@@ -46,6 +46,7 @@
 #define CLIENT_NONCE_LENGTH 8
 #endif
 
+#define AXIS_HTTP_KEEPALIVE_TIMEOUT_MAX_RETRIES 1
 
 
 struct axis2_http_sender
@@ -57,6 +58,7 @@ struct axis2_http_sender
     axis2_http_client_t *client;
     axis2_bool_t is_soap;
     axis2_bool_t keep_alive;
+    unsigned int keepalive_timeout_retries;
 };
 
 #ifndef AXIS2_LIBCURL_ENABLED
@@ -219,6 +221,8 @@ axis2_http_sender_create(
     sender->chunked = AXIS2_FALSE;
     sender->client = NULL;
     sender->keep_alive = AXIS2_TRUE;
+
+    sender->keepalive_timeout_retries = 0;
 
     return sender;
 }
@@ -460,9 +464,10 @@ axis2_http_sender_send(
             if(connection_map)
                 axis2_http_sender_connection_map_add(sender, connection_map, env, msg_ctx);
         }
-        else
+        else if (!sender->client)
         {
-            AXIS2_LOG_ERROR(env->log, AXIS2_LOG_SI, "sender->client creation failed for url %s", url);
+            /* only in cases client creation failed, not when keep alive is disabled !! */
+            AXIS2_LOG_ERROR(env->log, AXIS2_LOG_SI, "sender->client creation failed for url %s", str_url);
             return AXIS2_FAILURE;
         }
     }
@@ -577,7 +582,14 @@ axis2_http_sender_send(
             }
 
             axiom_output_set_do_optimize(sender->om_output, env, doing_mtom);
-            axiom_soap_envelope_serialize(out, env, sender->om_output, AXIS2_FALSE);
+            if (sender->keepalive_timeout_retries > 0)
+            {
+              AXIS2_LOG_INFO(env->log, "skip envelope serialization while retrying after timeout");
+            }
+            else
+            {
+              axiom_soap_envelope_serialize(out, env, sender->om_output, AXIS2_FALSE);
+            }
         }
         else if(is_soap)
         {
@@ -1343,10 +1355,37 @@ axis2_http_sender_send(
         output_stream = NULL;
     }
 
+    if (status_code == -2) /* status code returned by http_client in case of timeouts */
+    {
+      /* retry with a new http_client in case of Keep-Alive
+       * connection may have been terminated on server side
+       * see issue AXIS2C-1568
+       *
+       * we will retry only once though ...
+       */
+      if (sender->keep_alive && sender->keepalive_timeout_retries < AXIS_HTTP_KEEPALIVE_TIMEOUT_MAX_RETRIES) 
+      {
+        AXIS2_LOG_INFO(env->log, "keep alive enabled and connection timeout, retry");
+        /* removing from the map should free the http client, no need to free it explicitely */
+        axis2_http_sender_connection_map_remove(connection_map, env, msg_ctx, sender->client);
+        sender->client = NULL;
+        ++sender->keepalive_timeout_retries;
+        /* we retry sending ... this will create a new http_client automatically ... */
+        return axis2_http_sender_send(sender, env, msg_ctx, out, str_url, soap_action);
+      }
+    }
+
     if(status_code < 0)
     {
         AXIS2_LOG_ERROR(env->log, AXIS2_LOG_SI, "status_code < 0");
         return AXIS2_FAILURE;
+    }
+
+    /* here we successfully got the response headers so we reset the keepalive timeout retry counter */
+    if (sender->keep_alive && sender->keepalive_timeout_retries > 0)
+    {
+      AXIS2_LOG_INFO(env->log, "successful request, reset keepalive timeout retry counter");
+      sender->keepalive_timeout_retries = 0;
     }
 
     axis2_msg_ctx_set_status_code(msg_ctx, env, status_code);
@@ -3679,6 +3718,15 @@ axis2_http_sender_get_keep_alive(
     const axutil_env_t * env)
 {
     return sender->keep_alive;
+}
+
+AXIS2_EXTERN void AXIS2_CALL
+axis2_http_sender_set_so_timeout(
+    axis2_http_sender_t * sender,
+    const axutil_env_t * env,
+    unsigned int so_timeout)
+{
+    sender->so_timeout = so_timeout;
 }
 
 #ifndef AXIS2_LIBCURL_ENABLED

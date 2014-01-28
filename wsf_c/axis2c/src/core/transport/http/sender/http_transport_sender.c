@@ -837,6 +837,7 @@ axis2_http_transport_sender_write_message(
         return AXIS2_FAILURE;
     }
     axis2_http_sender_set_keep_alive(sender, env, AXIS2_INTF_TO_IMPL(transport_sender)->keep_alive);
+    axis2_http_sender_set_so_timeout(sender, env, AXIS2_INTF_TO_IMPL(transport_sender)->so_timeout);
 
     /* For the MTOM case we should on chunking. And for chunking to work the
      * protocol should be http 1.1*/
