@@ -20,8 +20,6 @@ REM limitations under the License.
 @goto end
 
 :call_vv32
-@call vcvars32.bat > vc.tmp
-@del vc.tmp
 @set VV32CALLED="YES"
 @goto call_nmake
 

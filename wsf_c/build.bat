@@ -1,5 +1,4 @@
 @echo off
-call vcvars32.bat /nologo
 
 rem setup version variables
 call build\init.bat

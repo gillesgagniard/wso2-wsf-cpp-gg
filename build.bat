@@ -1,5 +1,6 @@
 @echo off
-@call vcvars32.bat /nologo
+
+@set LINK=/SUBSYSTEM:CONSOLE,5.01
 
 rem @call clean.bat
 
@@ -100,4 +101,5 @@ rem Deploy Sample Source
 @cd "%WSFCPP_SOURCE%"
 
 :end
+@set LINK=
 @echo on
