@@ -21,7 +21,10 @@
 
 #include <stddef.h>
 
-#if !defined(_WIN32)
+/*
+ * On Visual Studio 2013 (VC 18.x), stdint.h seems to be finally OK
+ */
+#if !defined(_WIN32) || (defined(_WIN32) && _MSC_VER >= 1800)
 #include <stdint.h> 
 #endif
 
@@ -30,7 +33,10 @@ extern "C"
 {
 #endif
 
-#if defined(_WIN32) && !defined(AXIS2_SKIP_INT_TYPEDEFS)
+/*
+ * those typedefs are done by stdint.h starting with Visual Studio 2013
+ */
+#if (defined(_WIN32) && _MSC_VER < 1800) && !defined(AXIS2_SKIP_INT_TYPEDEFS)
     /**
      * ANSI Type definitions for Windows
      */
